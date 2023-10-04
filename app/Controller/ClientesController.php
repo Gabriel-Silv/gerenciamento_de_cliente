@@ -45,7 +45,7 @@ class ClientesController
             // Instanciar novo Model (Cliente)
             $Cliente = new Cliente();
             // do add() em Model/Model.php
-            $Cliente->add($_POST["nome"], $_POST["email"],  $_POST["data_nasc"], $_POST["cpf"]);
+            $Cliente->add($_POST ["razao_social"], $_POST["email"], $_POST["nome_fantasia"], $_POST["cnpj"], $_POST["telefone"]);
         }
 
         // onde ir depois que o cliente foi adicionado
@@ -120,7 +120,7 @@ class ClientesController
             // Instanciar novo Model (Cliente)
             $Cliente = new Cliente();
             // fazer update() do Model/Model.php
-            $Cliente->update($_POST["nome"], $_POST["email"],  $_POST["data_nasc"], $_POST["cpf"], $_POST['cliente_id']);
+            $Cliente->update($_POST ["razao_social"], $_POST["email"], $_POST["nome_fantasia"], $_POST["cnpj"], $_POST["telefone"], $_POST["id_cliente"]);
         }
 
         // onde ir depois que o cliente foi adicionado

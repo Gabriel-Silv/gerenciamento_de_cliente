@@ -8,6 +8,7 @@
 namespace Mini\Controller;
 
 use Mini\Model\Cliente;
+use Mini\Model\Endereco;
 
 class ClientesController
 {
@@ -44,12 +45,17 @@ class ClientesController
         if (isset($_POST["submit_add_cliente"])) {
             // Instanciar novo Model (Cliente)
             $Cliente = new Cliente();
+            $Endereco = new Endereco();
             // do add() em Model/Model.php
-            $Cliente->add($_POST ["razao_social"], $_POST["email"], $_POST["nome_fantasia"], $_POST["cnpj"], $_POST["telefone"]);
-        }
-
-        // onde ir depois que o cliente foi adicionado
-        header('location: ' . URL . 'clientes/index');
+            $result=$Cliente->add($_POST ["razao_social"], $_POST["email"], $_POST["nome_fantasia"], $_POST["cnpj"], $_POST["telefone"]);
+           if($result==true){
+            $Endereco->add($_POST ["logradouro"], $_POST["numero"], $_POST["bairro"], $_POST["estado"], $_POST["municipio"], $_POST["pais"], $_POST["cep"]);
+           }
+            
+            // onde ir depois que o cliente foi adicionado
+            header('location: ' . URL . 'clientes/index');
+        }  
+        
     }
 
     /**
@@ -86,9 +92,10 @@ class ClientesController
         if (isset($cliente_id)) {
             // Instanciar novo Model (Cliente)
             $Cliente = new Cliente();
+            $Endereco = new Endereco();
             // fazer getCliente() em Model/Model.php
             $cliente = $Cliente->getCliente($cliente_id);
-
+            $endereco = $Endereco->getEndereco($cliente_id);
             // Se o cliente não foi encontrado, então ele teria retornado falso, e precisamos exibir a página de erro
             if ($cliente === false) {
                 $page = new \Mini\Controller\ErrorController();

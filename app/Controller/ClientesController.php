@@ -134,6 +134,14 @@ class ClientesController
         header('location: ' . URL . 'clientes/index');
     }
 
+    public function insert()
+    {
+                 // carregar a view clientes. nas views nós podemos mostrar $cliente facilmente
+                 require APP . 'view/_templates/header.php';
+                 require APP . 'view/clientes/insert.php';
+                 require APP . 'view/_templates/footer.php';
+    }
+
     /**
      * AJAX-ACTION: ajaxGetStats
      * TODO documentação

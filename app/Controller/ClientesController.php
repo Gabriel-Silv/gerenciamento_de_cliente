@@ -49,9 +49,17 @@ class ClientesController
             // do add() em Model/Model.php
             $result=$Cliente->add($_POST ["razao_social"], $_POST["email"], $_POST["nome_fantasia"], $_POST["cnpj"], $_POST["telefone"]);
            if($result==true){
-            $Endereco->add($_POST ["logradouro"], $_POST["numero"], $_POST["bairro"], $_POST["estado"], $_POST["municipio"], $_POST["pais"], $_POST["cep"]);
+            $resultendereco= $Endereco->add(
+                           $_POST ["logradouro"], 
+                           $_POST["numero"], 
+                           $_POST["bairro"], 
+                           $_POST["estado"], 
+                           $_POST["municipio"], 
+                           $_POST["pais"],
+                           $_POST["cep"],
+                           $result["id_cliente"]
+                        );
            }
-            
             // onde ir depois que o cliente foi adicionado
             header('location: ' . URL . 'clientes/index');
         }  
@@ -76,11 +84,9 @@ class ClientesController
             // fazer delete() em Model/Model.php
             $Cliente->delete($cliente_id);
         }
-
         // onde ir depois que o cliente foi excluído
         header('location: ' . URL . 'clientes/index');
     }
-
      /**
      * ACTION: edit
      * Este método lida com o que acontece quando você se move para http://localhost/projeto/clientes/edit
@@ -95,7 +101,8 @@ class ClientesController
             $Endereco = new Endereco();
             // fazer getCliente() em Model/Model.php
             $cliente = $Cliente->getCliente($cliente_id);
-            $endereco = $Endereco->getEndereco($cliente_id);
+            $endereco = $Endereco->getEnderecocliente($cliente_id);
+        
             // Se o cliente não foi encontrado, então ele teria retornado falso, e precisamos exibir a página de erro
             if ($cliente === false) {
                 $page = new \Mini\Controller\ErrorController();
@@ -111,7 +118,6 @@ class ClientesController
             header('location: ' . URL . 'clientes/index');
         }
     }
-
     /**
      * ACTION: update
      * Este método lida com o que acontece quando você se move para http://localhost/projeto/clientes/update
@@ -127,9 +133,10 @@ class ClientesController
             // Instanciar novo Model (Cliente)
             $Cliente = new Cliente();
             // fazer update() do Model/Model.php
-            $Cliente->update($_POST ["razao_social"], $_POST["email"], $_POST["nome_fantasia"], $_POST["cnpj"], $_POST["telefone"], $_POST["id_cliente"]);
+            $Cliente->update($_POST);
+            $Endereco = new Endereco();  
+            $endereco = $Endereco->updateEnderecoByCliente($_POST);
         }
-
         // onde ir depois que o cliente foi adicionado
         header('location: ' . URL . 'clientes/index');
     }
@@ -151,7 +158,6 @@ class ClientesController
         // Instance new Model (Cliente)
         $Cliente = new Cliente();
         $amount_of_clientes = $Cliente->getAmountOfClientes();
-
         // simplesmente ecoar alguma coisa. Uma API supersimple seria possível fazendo eco ao JSON aqui
         echo $amount_of_clientes;
     }

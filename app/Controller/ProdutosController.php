@@ -104,6 +104,14 @@ class ProdutosController
         }
     }
 
+    public function insert()
+    {
+                 // carregar a view produtos. nas views nós podemos mostrar $cliente facilmente
+                 require APP . 'view/_templates/header.php';
+                 require APP . 'view/produtos/insert.php';
+                 require APP . 'view/_templates/footer.php';
+    }
+
     /**
      * ACTION: update
      * Este método lida com o que acontece quando você se move para http://localhost/projeto/produtos/update

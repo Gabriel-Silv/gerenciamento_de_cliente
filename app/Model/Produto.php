@@ -33,14 +33,18 @@ class Produto extends Model
      */
     public function add($descricao, $unidade)
     {
-        $sql = "INSERT INTO produtos (descricao, unidade) VALUES (:descricao, :unidade)";
-        $query = $this->db->prepare($sql);
-        $parameters = array(':descricao' => $descricao, ':unidade' => $unidade);
-
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
-        $query->execute($parameters);
+        try{
+            $this->db->beginTransaction();
+            $sql = "INSERT INTO clientes (descricao,  unidade) VALUES (:descricao, :unidade)";
+            $query = $this->db->prepare($sql);
+            $parameters = array(':descricao' => $descricao, ':unidade' => $unidade );
+        $this->db->commit();
+        return array('success' =>  $query->execute($parameters),
+                     'id_produtos'=> $this->db->lastInsertId()
+                    );
+        }catch(PDOException $e){
+            $this->db->rollback();
+        }
     }
 
     /**

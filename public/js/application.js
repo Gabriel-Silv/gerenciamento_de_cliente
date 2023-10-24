@@ -36,4 +36,28 @@ $(function() {
         });
     }
 
-});
+    AddItens= function () {
+        debugger;
+        var newRow = $("<tr>");
+        var cols = "";                                  
+        cols += "<td>" +$('#codigo').val() + "</td>";
+        cols+= "<td>" +$('#descricao').val() + "</td>";
+        cols += "<td>" +$('#unidade').val() + "</td>";
+        cols += "<td>" +$('#quantidade').val() + "</td>";
+        cols += "<td>" +$('#valor').val() + "</td>";
+        cols += "<td>" +$('#desconto').val() + "</td>";
+        cols += "<td>" +$('#valor_total').val() + "</td>";
+        cols += '<button class="btn btn-large btn-danger" onclick="RemoveTableRow(this)" type="button">Remover</button>';
+        cols += '</td>';
+        newRow.append(cols);
+        $("#table_vendas").append(newRow);
+        return false;
+};
+
+    CalcularValorTotal=  function(){
+        debugger;
+        $('#valor_total').val($('#quantidade').val() * $('#valor').val() - $('#desconto').val());
+    }
+})
+
+

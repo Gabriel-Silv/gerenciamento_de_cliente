@@ -21,54 +21,60 @@
                             <input type="hidden" name="vendedor_id" value="" required class="form-control"/>
                         </div>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-12">
                         <div class="form-group">
                             <label>CPF</label>
                             <input type="text" name="cpf" value="" required class="form-control"/>
                         </div>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Codigo</label>
+                            <input type="text" name="codigo" id="codigo" value="" required class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
                         <div class="form-group">
                             <label>Descrição</label>
-                            <input type="text" name="descricao" value="" required class="form-control"/>
+                            <input type="text" name="descricao" id="descricao" value="" required class="form-control"/>
                         </div>
                     </div>
 
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label>Quantidade</label>
-                            <input autofocus type="text" name="quantidade" value="" required class="form-control" />
+                            <input autofocus type="text" name="quantidade" id="quantidade" value="" required class="form-control" />
                         </div>
                     </div>
-                    <div class="col-sm-2">,
+                    <div class="col-sm-2">
                         <div class="form-group">
                             <label>Tabela</label>
-                            <input autofocus type="text" name="tabela" value="" required class="form-control" />
+                            <input autofocus type="text" name="tabela" id="tabela" value="" required class="form-control" />
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label>Valor Unit.</label>
-                            <input autofocus type="text" name="valor" value="" required class="form-control" />
+                            <input autofocus type="text" name="valor" id="valor" value="" required class="form-control" />
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label>Desconto</label>
-                            <input autofocus type="text" name="desconto" value="" required class="form-control" />
+                            <input autofocus type="text" name="desconto" id="desconto" value="" onblur="CalcularValorTotal()" required class="form-control" />
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label>Valor Total</label>
-                            <input autofocus type="text" name="valor_total" value="" required class="form-control" />
+                            <input autofocus type="text" name="valor_total"  id="valor_total" value="" required class="form-control" />
                         </div>
                     </div>
                 </div>
                 <br/>
                 <div class="row">
                 <div class="col-12 table-responsive">
-                  <table class="table table-striped">
+                  <table id="table_vendas" class="table table-striped">
                     <thead>
                     <tr>
                       <th>Codigo</th>
@@ -76,29 +82,24 @@
                       <th>Unid.</th>
                       <th>QTD</th>
                       <th>Valor</th>
+                      <th>Desconto</th>
                       <th>Valor Total</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($vendas as $venda) { ?>
                 <tr>
-                    <td><?php if (isset($venda->id)) echo htmlspecialchars($venda->id, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php if (isset($venda->descricao)) echo htmlspecialchars($venda->descricao, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php if (isset($venda->unidade)) echo htmlspecialchars($venda->unidade, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php if (isset($venda->quantidade)) echo htmlspecialchars($venda->valor, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php if (isset($venda->valor)) echo htmlspecialchars($venda->valor, ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php if (isset($venda->valor)) echo htmlspecialchars(($venda->valor * $venda->quantidade), ENT_QUOTES, 'UTF-8'); ?></td>
+                    
                 </tr>
-            <?php } ?>
                     </tbody>
                   </table>
                 </div>
                 <!-- /.col -->
               </div>
                 <br>
-                <input type="submit" name="submit_add_venda" value="Enviar" class="btn btn-primary"/>
+                
                 <br/>
             </form>
+            <input type="button" name="submit_add_venda" value="Enviar" class="btn btn-primary" onclick="AddItens()"/>
         </div>
     </div>
   </div>

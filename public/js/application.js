@@ -51,6 +51,18 @@ $(function() {
         cols += '</td>';
         newRow.append(cols);
         $("#table_vendas").append(newRow);
+        var dadosItens = [];
+
+      var intensVendas = { 
+                id_venda:    $(this).find('.id_venda').text() , 
+                descricao:   $(this).find('.descricao').text(),
+                unidade:    $(this).find('.unidade').text(),
+                quantidade:  $(this).find('.quantidade').text(),
+                valor:       $(this).find('.valor').text(),
+                desconto:    $(this).find('.desconto').text(),
+                valor_total: $(this).find('.valor_total').text(),
+           };
+      dadosItens.push(intensVendas);
         return false;
 };
 
@@ -58,6 +70,7 @@ $(function() {
         debugger;
         $('#valor_total').val($('#quantidade').val() * $('#valor').val() - $('#desconto').val());
     }
+    
 })
 
 

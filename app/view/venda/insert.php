@@ -99,7 +99,7 @@
                 
                 <br/>
             </form>
-            <input type="button" name="submit_add_venda" value="Enviar" class="btn btn-primary" onclick="AddItens()"/>
+            <input type="button" name="submit_add_venda" value="Adicionar" class="btn btn-primary" onclick="AddItens()"/>
         </div>
     </div>
   </div>

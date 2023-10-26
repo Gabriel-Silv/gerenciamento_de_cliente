@@ -4,7 +4,7 @@
             <h3 class="card-title">Cadastro de Venda</h3>
         </div>
         <div class="card-body">
-            <form action="<?php echo URL; ?>venda/add" method="POST">
+            <form id="form_insert_venda" action="<?php echo URL; ?>venda/add" method="POST">
                 <div class="row">
                     <div class="col-sm-6">
                     <!-- text input -->
@@ -70,6 +70,13 @@
                             <input autofocus type="text" name="valor_total"  id="valor_total" value="" required class="form-control" />
                         </div>
                     </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <br>
+                            <input type="button" name="submit_add_venda" value="Adicionar" class="btn btn-primary" onclick="AddItens()"/>
+                        </div>
+                    </div>
+                    
                 </div>
                 <br/>
                 <div class="row">
@@ -87,8 +94,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                <tr>
-                    
+                <tr> 
                 </tr>
                     </tbody>
                   </table>
@@ -96,10 +102,9 @@
                 <!-- /.col -->
               </div>
                 <br>
-                
                 <br/>
             </form>
-            <input type="button" name="submit_add_venda" value="Adicionar" class="btn btn-primary" onclick="AddItens()"/>
+            <input type="button" name="submit_add_venda" value="Finalizar Venda" class="btn btn-primary" onclick="finalizarVenda()"/>
         </div>
     </div>
   </div>

@@ -146,4 +146,21 @@ class VendaController
         echo $amount_of_venda;
     }
 
+    public function inserirVendaEItens() {
+        // Obter os dados da requisição POST
+        // Inserir a venda no banco de dados
+        $venda = new Venda();
+        $venda->add($_POST['dadosdaVenda']);
+        // Inserir os itens da venda no banco de dados
+        $itensVenda = $_POST['intes_vendas'];
+       
+        foreach ($itensVenda as $item) {
+          $itemVenda = new ItensVenda();
+          $itemVenda->add($itensVenda);
+        }
+        // Retornar uma resposta JSON para indicar sucesso ou erro
+        $response = array('status' => 'success');
+        echo json_encode($response);
+      }
+
 }

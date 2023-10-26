@@ -70,6 +70,44 @@ $(function() {
         debugger;
         $('#valor_total').val($('#quantidade').val() * $('#valor').val() - $('#desconto').val());
     }
+
+    finalizarVenda = function () {
+        dadosVendas = [];
+        itensVendas = [];
+         // Obter os dados do formulário
+    var formulario = $('#form_insert_venda').serializeArray();
+    var formData = {};
+    // Converter os dados do formulário em um objeto
+    $.each(formulario, function(index, field) {
+    formData[field.name] = field.value;
+   });
+        dadosVendas.push(formData);
+        $('#form_insert_venda tr').each(function() {
+          var linhaDados = [];
+          $(this).find('td').each(function() {
+            linhaDados.push($(this).text());
+          });
+          itensVendas.push(linhaDados);
+        });
+        debugger;
+        dadosPost=  {"dados_vendas":JSON.stringify(dadosVendas),"itens_vendas":JSON.stringify(itensVendas)};
+        console.log(dadosPost);
+        // Enviar os dados via POST com AJAX
+        $.ajax({
+          url: '/venda/add',
+          type: 'POST',
+          contentType: 'application/json',
+          data: dadosPost,
+          success: function() {
+            // Callback de sucesso
+            console.log('Dados enviados com sucesso!');
+          },
+          error: function() {
+            // Callback de erro
+            console.error('Erro ao enviar os dados!');
+          }
+        });
+      }
     
 })
 

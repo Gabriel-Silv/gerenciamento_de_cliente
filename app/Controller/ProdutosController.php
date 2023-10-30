@@ -8,7 +8,7 @@
 namespace Mini\Controller;
 
 use Mini\Model\Produto;
-
+use Exception;
 class ProdutosController
 {
     /**
@@ -29,6 +29,27 @@ class ProdutosController
         require APP . 'view/_templates/footer.php';
     }
 
+
+
+    public function getProdutoPorcodigo($codigo){
+        try {
+            $Produto = new Produto();
+            $produtos = $Produto->getProduto($codigo);
+            if($produtos){
+                $data['data']= $produtos;
+                echo json_encode($data);
+                return;
+            }
+            echo "";
+            return;
+        } catch (Exception $e) {
+          die('error: ' . $e->getMessage());
+        }
+       }
+    
+ 
+
+
     /**
      * ACTION: add
      * Este método manipula o que acontece quando acessamos http://localhost/projeto/produtos/add
@@ -37,6 +58,9 @@ class ProdutosController
      * o usuário de volta para produtos/index através da última linha: header(...)
      * Este é um exemplo de como lidar com uma solicitação POST.
      */
+
+
+
     public function add()
     {
         // se tivermos dados POST para criar uma nova entrada do produto
@@ -130,7 +154,7 @@ class ProdutosController
             // Instanciar novo Model (Produto)
             $Produto = new Produto();
             // fazer update() do Model/Model.php
-            $Produto->update($_POST["descricao"], $_POST["unidade"], $_POST['produto_id']);
+            $Produto->update($_POST["descricao"], $_POST["unidade"],$_POST["codigo"], $_POST['produto_id']);
         }
 
         // onde ir depois que o produto foi adicionado

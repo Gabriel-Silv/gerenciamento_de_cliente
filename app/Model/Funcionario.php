@@ -80,6 +80,15 @@ class Funcionario extends Model
         // fetch() é o método do PDO que recebe exatamente um registro
         return ($query->rowcount() ? $query->fetch() : false);
     }
+    public function getFuncionarioCombobox()
+    {
+        $sql = "SELECT id,nome FROM funcionarios where perfil =:vendedor";
+        $parameters = array('vendedor' => 'vendedor');
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return ($query->rowcount() ? $query->fetchAll() : false);
+    }
+
 
     /**
      * Atualizar um Funcionario no banco

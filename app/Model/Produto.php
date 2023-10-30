@@ -18,14 +18,12 @@ class Produto extends Model
         $sql = "SELECT id, descricao, unidade FROM produtos";
         $query = $this->db->prepare($sql);
         $query->execute();
-
         // fetchAll() é o método PDO que recebe todos os registros retornados, aqui em object-style porque definimos isso em
         // core/controller.php! Se preferir obter um array associativo como resultado, use
         // $query->fetchAll(PDO::FETCH_ASSOC); ou mude as opções em core/controller.php's PDO para
         // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
         return $query->fetchAll();
     }
-
     /**
      * Adicionar um Produto para o banco
      * @param string $descricao Descrição
@@ -35,9 +33,13 @@ class Produto extends Model
     {
         try{
             $this->db->beginTransaction();
-            $sql = "INSERT INTO produtos (descricao,  unidade, valor) VALUES (:descricao, :unidade, :valor)";
+            $sql = "INSERT INTO produtos (descricao,  unidade, valor,codigo) VALUES (:descricao, :unidade, :valor,:valor)";
             $query = $this->db->prepare($sql);
-            $parameters = array(':descricao' => $request['descricao'], ':unidade' => $request['unidade'], ':valor' => $request['valor'] );
+            $parameters = array(':descricao' => $request['descricao'], 
+            ':unidade' => $request['unidade'], 
+            ':valor' => $request['valor'] ,
+            ':codigo' => $request['codigo'] 
+        );
         $this->db->commit();
         $result = $query->execute($parameters);
         //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
@@ -73,15 +75,24 @@ class Produto extends Model
      */
     public function getProduto($produto_id)
     {
-        $sql = "SELECT id, descricao, unidade, valor FROM produtos WHERE id = :produto_id LIMIT 1";
+        $sql = "SELECT id, descricao, unidade, valor,codigo FROM produtos WHERE id = :produto_id LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array(':produto_id' => $produto_id);
-
         // útil para debugar: você pode ver o SQL atrás da construção usando:
         // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
         $query->execute($parameters);
+        // fetch() é o método do PDO que recebe exatamente um registro
+        return ($query->rowcount() ? $query->fetch() : false);
+    }
 
+    public function getProdutoPorcodigo($codigo)
+    {
+        $sql = "SELECT id, descricao, unidade, valor,codigo FROM produtos WHERE id = :produto_id LIMIT 1";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':codigo' => $codigo);
+        // útil para debugar: você pode ver o SQL atrás da construção usando:
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
         // fetch() é o método do PDO que recebe exatamente um registro
         return ($query->rowcount() ? $query->fetch() : false);
     }
@@ -92,11 +103,17 @@ class Produto extends Model
      * @param string $unidade Unidade
      * @param int $produto_id Id
      */
-    public function update($descricao, $unidade, $produto_id)
+    public function update($descricao, $unidade,$valor,$codigo,$produto_id)
     {
-        $sql = "UPDATE produtos SET descricao = :descricao, unidade = :unidade, valor = :valor WHERE id = :produto_id";
+        $sql = "UPDATE produtos SET descricao = :descricao, unidade = :unidade, valor = :valor,codigo = :codigo WHERE id = :produto_id";
         $query = $this->db->prepare($sql);
-        $parameters = array(':descricao' => $descricao, ':unidade' => $unidade, ':valor' => $valor, ':produto_id' => $produto_id);
+        $parameters = array(
+                ':descricao' => $descricao, 
+                ':unidade' => $unidade, 
+                ':valor' => $valor, 
+                ':produto_id' => $produto_id,
+                ':codigo' => $codigo
+            );
 
         // útil para debugar: você pode ver o SQL atrás da construção usando:
         // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();

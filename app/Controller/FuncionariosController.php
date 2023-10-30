@@ -34,6 +34,23 @@ class FuncionariosController
         require APP . 'view/_templates/footer.php';
 
     }
+
+   public function obterTodosFuncionariosToCombox(){
+    try {
+        $Funcionario = new Funcionario();
+        $funcionarios = $Funcionario->getFuncionarioCombobox();
+        if($funcionarios){
+            $data['data']= $funcionarios;
+            echo json_encode($data);
+            return;
+        }
+        echo "";
+        return;
+    } catch (Exception $e) {
+      die('error: ' . $e->getMessage());
+    }
+   }
+   
     public function insert()
     {
 

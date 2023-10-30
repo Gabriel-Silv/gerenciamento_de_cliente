@@ -7,8 +7,8 @@
 namespace Mini\Model;
 
 use Mini\Core\Model;
-
-class Produto extends Model
+use PDOException;
+class Venda extends Model
 {
     /**
      * Get all Vendas from database
@@ -16,7 +16,7 @@ class Produto extends Model
     public function getAllVenda()
     {
         $sql = "SELECT * FROM vendas v inner join itensvendas i on(i.id_vendas = v.id)
-        inner join cliente c on(c.id = i.id_cliente)
+        inner join cliente c on(c.id = i.cliente_id)
         inner join funcionario f on(f.id = i.id_funcionario)
         inner join produtos p on(p.id = i.id_produto)";
         $query = $this->db->prepare($sql);
@@ -36,20 +36,26 @@ class Produto extends Model
      */
     public function add($request)
     {
-        try{
+        try {
             $this->db->beginTransaction();
-            $sql = "INSERT INTO vendas (descricao,  unidade, valor) VALUES (:descricao, :unidade, :valor)";
+            $sql = "INSERT INTO vendas (vendedor_id, cliente_id,total_venda, status_venda) 
+                    VALUES (:vendedor_id, :cliente_id, :total_venda, :status_venda)";
             $query = $this->db->prepare($sql);
-            $parameters = array(':descricao' => $request['descricao'], ':unidade' => $request['unidade'], ':valor' => $request['valor'] );
-        $this->db->commit();
-        $result = $query->execute($parameters);
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-        return array('success' =>  $result ,
-                     'id_vendas'=> $this->db->lastInsertId()
-                    );
-        }catch(PDOException $e){
+            $parameters = $this->setParamsVendas($request);
+            $this->db->commit();
+            $result = $query->execute($parameters);
+            return array('success' => $result, 'id_vendas' => $this->db->lastInsertId());
+        } catch (PDOException $e) {
             $this->db->rollback();
         }
+    }
+
+    function setParamsVendas($request){
+        $parameters = array(
+         ':vendedor_id'    => $request['vendedor'],
+         ':id_clinete'     => $request['clinete'], 
+         ':total_venda'    => $request['valor_total'],
+         ':status_venda'   => $request['status_venda'] );
     }
 
     public function addItens($request)
@@ -95,7 +101,7 @@ class Produto extends Model
     public function getProduto($id_venda)
     {
         $sql = "SELECT * FROM vendas v inner join itensvendas i on(i.id_vendas = v.id)
-        inner join cliente c on(c.id = i.id_cliente)
+        inner join cliente c on(c.id = i.cliente_id)
         inner join funcionario f on(f.id = i.id_funcionario)
         inner join produtos p on(p.id = i.id_produto) WHERE id = :id_venda";
         $query = $this->db->prepare($sql);

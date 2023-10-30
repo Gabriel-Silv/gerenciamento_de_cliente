@@ -35,6 +35,14 @@ class Cliente extends Model
         return $query->fetchAll();
     }
 
+    public function getClienteCombobox()
+    {
+        $sql = "SELECT id,razao_social FROM clientes ";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        return ($query->rowcount() ? $query->fetchAll() : false);
+    }
+
     /**
      * Adicionar um cliente para o banco
      * @param string $nome Nome

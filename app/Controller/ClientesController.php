@@ -9,7 +9,7 @@ namespace Mini\Controller;
 
 use Mini\Model\Cliente;
 use Mini\Model\Endereco;
-
+use Exception;
 class ClientesController
 {
     /**
@@ -30,6 +30,30 @@ class ClientesController
         require APP . 'view/clientes/index.php';
         require APP . 'view/_templates/footer.php';
     }
+
+    function buscaClienteById($cliente_id){
+           $Cliente = new Cliente();
+           $clientes = $Cliente->getCliente($cliente_id);
+           echo json_encode($clientes);
+    }
+    public function obterTodosClientesToCombox(){
+        try {
+            $Cliente = new Cliente();
+            $clientes = $Cliente->getClienteCombobox();
+            
+            if($clientes){
+                $data['data']= $clientes;
+                $data['success']=true;
+                $data['status']=200;
+                echo json_encode($data);
+                return true;
+            }
+            echo "";
+            return;
+        } catch (Exception $e) {
+          die('error: ' . $e->getMessage());
+        }
+       }
 
     /**
      * ACTION: add

@@ -15,7 +15,7 @@ class Produto extends Model
      */
     public function getAllProdutos()
     {
-        $sql = "SELECT id, descricao, unidade FROM produtos";
+        $sql = "SELECT id, descricao, unidade,valor,codigo FROM produtos";
         $query = $this->db->prepare($sql);
         $query->execute();
         // fetchAll() é o método PDO que recebe todos os registros retornados, aqui em object-style porque definimos isso em

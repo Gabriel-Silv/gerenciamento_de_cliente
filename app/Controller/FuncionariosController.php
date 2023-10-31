@@ -27,14 +27,10 @@ class FuncionariosController
 
             die('error: ' . $e->getMessage());
         }
-
         require APP . 'view/_templates/header.php';
-
         require APP . 'view/funcionarios/index.php';
         require APP . 'view/_templates/footer.php';
-
     }
-
    public function obterTodosFuncionariosToCombox(){
     try {
         $Funcionario = new Funcionario();
@@ -53,7 +49,6 @@ class FuncionariosController
    
     public function insert()
     {
-
         // carregar a view clientes. nas views nós podemos mostrar $cliente facilmente
         require APP . 'view/_templates/header.php';
         require APP . 'view/funcionarios/insert.php';

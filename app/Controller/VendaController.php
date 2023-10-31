@@ -9,7 +9,7 @@ namespace Mini\Controller;
 
 use Mini\Model\Venda;
 use Mini\Model\ItensVenda;
-
+use PDO;
 class VendaController
 {
     /**
@@ -21,9 +21,8 @@ class VendaController
         // Instanciar novo Model (Venda)
         $Venda = new Venda();
         // receber todos os venda e a quantidade de venda
-        $venda = $Venda->getAllvenda();
+        $vendas = $Venda->getAllvenda();
         $amount_of_venda = $Venda->getAmountOfvenda();
-
        // carregar a view venda. com as views nós podemos mostrar os $venda e a $amount_of_venda facilmente
         require APP . 'view/_templates/header.php';
         require APP . 'view/venda/index.php';
@@ -58,34 +57,34 @@ class VendaController
      */
    
      public function finalizarVenda(){
+        try{
 
         $dadosVendasRequest=json_decode($_POST['dados_venda'],1);
-        $itensVendasRequest=json_decode($_POST['itens_vendas'],1);
+        $itensVendasRequest=json_decode($_POST['itens_venda'],1);
         $dadosVendasRequest=$this->getDadosVendas($dadosVendasRequest);
-        $dadosVendasRequest['dados_venda']['total_venda'] =$this->calcuclaTotal($itensVendasRequest);
+        $dadosVendasRequest['total_venda'] =$this->calcuclaTotal($itensVendasRequest);
       
         if(isset($dadosVendasRequest)){
             $Venda = new Venda();
-            $idVenda=$Venda->add($dadosVendasRequest['dadosVenda']); 
-            $itensVendasRequest['id_venda']=$idVenda;
-            if($idVenda){
-                $itensVenda = new ItensVenda();
-                $itensVenda->saveIntensVenda($itensVendasRequest);
+            $result=$Venda->add($dadosVendasRequest); 
+            $itensVendasRequest['id_venda']=$result['id_vendas'];
+            if($result['success']==true){
+                $this->saveIntensVenda($itensVendasRequest);
             }
+            $this->db->commit();
+            echo json_encode(["status"=>"sucesss"]);
             header('location: ' . URL .'venda/insert');  
         }
-     }
+    } catch(Exception $e){
+        echo json_encode(["status"=>"error"]);
+    }
+  }
      public function delete($venda_id)
     {
-        // se temos um id de um Venda que deve ser deletado
         if (isset($venda_id)) {
-            // Instanciar novo Model (Venda)
             $Venda = new Venda();
-            // fazer delete() em Model/Model.php
             $Venda->delete($venda_id);
         }
-
-        // onde ir depois que o Venda foi excluído
         header('location: ' . URL . 'venda/index');
     }
      /**
@@ -141,7 +140,6 @@ class VendaController
             // fazer update() do Model/Model.php
             $Venda->update($_POST["descricao"], $_POST["unidade"], $_POST['venda_id']);
         }
-
         // onde ir depois que o Venda foi adicionado
         header('location: ' . URL . 'venda/index');
     }
@@ -157,29 +155,35 @@ class VendaController
         // simplesmente ecoar alguma coisa. Uma API supersimple seria possível fazendo eco ao JSON aqui
         echo $amount_of_venda;
     }
-    public function saveIntensVenda($itens_vendas) {
+    public function saveIntensVenda($itensVenda) {
         foreach ($itensVenda as $item) {
           $itemVenda = new ItensVenda();
-          $itemVenda->add($itensVenda);
+          $item['id_venda']=$itensVenda['id_venda'];
+          $item['valor']=$this->convertToDouble($item['valor']);
+          $itemVenda->add($item);
         }
         $response = array('status' => 'success');
         return json_encode($response);
       }
       function getDadosVendas($dadosVendas) {
-        //$encodedString = 'dados_venda=%5B%7B%22vendedor%22%3A%221%22%2C%22vendedor_id%22%3A%22%22%2C%22cliente_id%22%3A%22%22%2C%22cliente%22%3A%2248%22%2C%22codigo%22%3A%22%22%2C%22descricao%22%3A%22%22%2C%22quantidade%22%3A%22%22%2C%22unidade%22%3A%22%22%2C%22desconto%22%3A%22%22%7D%5D&itens_vendas=%7B%22itensVendas%22%3A%5B%5B%5D%2C%5B%5D%2C%5B%22000003%22%2C%22IN+NEC+ORCI.%22%2C%22AMPOLA%22%2C%223%22%2C%22R%24%C2%A0140%2C00%22%2C%2212%22%2C%22R%24%C2%A0408%2C00%22%5D%5D%7D';
-        //parse_str($encodedString, $dadosVendas);
-        $dadosVendas['dados_venda']['id_cliente'] = $dadosVendas['dados_venda']['cliente'];
-        $dadosVendas['dados_venda']['id_vendedor'] = $dadosVendas['dados_venda']['vendedor'];
-        $dadosVendas['dados_venda']['status_venda']='finalizada';
+        $dadosVendas['id_cliente'] = $dadosVendas[0]['cliente'];
+        $dadosVendas['id_vendedor'] = $dadosVendas[0]['vendedor'];
+        $dadosVendas['status_venda']='finalizada';
         return $dadosVendas;
     }
   function calcuclaTotal($itensVendas){
     $total = 0;
-    foreach (json_decode($_POST['itens_venda'],1) as $item) {
+    foreach ($itensVendas as $item) {
      if ($item){
-      $total += $item['valor']*$item['quantidade'];
+      $total +=$this->convertToDouble($item['valor_total']);
     }
    }
     return $total;
+  }
+  function convertToDouble($value) {
+    $pattern = '/[^\d.,]+/'; // Regular expression pattern to match non-numeric, non-dot, non-comma characters
+    $valueWithoutCurrency = preg_replace($pattern, '', $value);
+    $doubleValue = doubleval(str_replace(',', '.', $valueWithoutCurrency));
+    return $doubleValue;
   }
 }

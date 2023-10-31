@@ -43,6 +43,7 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label>Codigo</label>
+                            <input type="hidden" name="id_produto" id="id_produto" value="" required class="form-control" />
                             <input type="text" name="codigo" id="codigo" value="" required class="form-control"
                                 onblur="buscarDadosDoProduto()" />
                         </div>

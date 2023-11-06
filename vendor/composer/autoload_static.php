@@ -7,17 +7,56 @@ namespace Composer\Autoload;
 class ComposerStaticInit2847e8ead9f2a445cf29cd5bf8bc4416
 {
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Svg\\' => 4,
+            'Sabberworm\\CSS\\' => 15,
+        ),
         'M' => 
         array (
             'Mini\\' => 5,
+            'Masterminds\\' => 12,
+        ),
+        'F' => 
+        array (
+            'FontLib\\' => 8,
+        ),
+        'D' => 
+        array (
+            'Dompdf\\' => 7,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Svg\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg',
+        ),
+        'Sabberworm\\CSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
+        ),
         'Mini\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Masterminds\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'FontLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
+        ),
+        'Dompdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
+        ),
+    );
+
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -25,6 +64,7 @@ class ComposerStaticInit2847e8ead9f2a445cf29cd5bf8bc4416
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit2847e8ead9f2a445cf29cd5bf8bc4416::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit2847e8ead9f2a445cf29cd5bf8bc4416::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2847e8ead9f2a445cf29cd5bf8bc4416::$classMap;
 
         }, null, ClassLoader::class);
     }

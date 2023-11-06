@@ -142,6 +142,17 @@ class Venda extends Model
         $query->execute($parameters);
     }
 
+    public function cancelar($venda_id)
+    {
+        $sql = "UPDATE vendas SET status = :status WHERE id = :$venda_id";
+        $query = $this->db->prepare($sql);
+        $parameters = array( ':status' => 'cancelado', ':$venda_id' => $venda_id);
+
+        // útil para debugar: você pode ver o SQL atrás da construção usando:
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+
+        $query->execute($parameters);
+    }
     /**
      * Obtenha "estatísticas" simples. Esta é apenas uma demonstração simples para mostrar
      * como usar mais de um modelo em um controlador

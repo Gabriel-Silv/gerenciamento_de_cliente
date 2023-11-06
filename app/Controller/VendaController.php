@@ -7,6 +7,7 @@
 
 namespace Mini\Controller;
 
+use Dompdf\Dompdf;
 use Mini\Model\Venda;
 use Mini\Model\ItensVenda;
 use PDO;
@@ -29,6 +30,11 @@ class VendaController
         require APP . 'view/_templates/footer.php';
     }
 
+    public function cancelar($id){
+        $Venda = new Venda();
+        $venda = $Vanda->cancelar($id);
+        header('location: ' . URL . 'venda/index');
+    }
     /**
      * ACTION: add
      * Este método manipula o que acontece quando acessamos http://localhost/projeto/venda/add
@@ -45,6 +51,31 @@ class VendaController
         $Venda = new Venda();
         $result = $Venda->add($_POST);
         header('location: ' . URL . 'venda/insert');
+    }
+
+    public function relatorioVendas(){
+        $dompdf = new Dompdf();
+
+    //lendo o arquivo HTML correspondente
+    
+    $html = file_get_contents('exemplo.html');
+    
+    //inserindo o HTML que queremos converter
+
+    $dompdf->loadHtml($html);
+
+    // Definindo o papel e a orientação
+
+    $dompdf->setPaper('A4', 'landscape');
+
+    // Renderizando o HTML como PDF
+
+    $dompdf->render();
+
+    // Enviando o PDF para o browser
+
+    $dompdf->stream();
+    
     }
     /**
      * ACTION: delete

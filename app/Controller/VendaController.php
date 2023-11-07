@@ -56,27 +56,38 @@ class VendaController
     public function relatorioVendas(){
         $dompdf = new Dompdf();
 
-    //lendo o arquivo HTML correspondente
-    
-    $html = file_get_contents('exemplo.html');
-    
-    //inserindo o HTML que queremos converter
 
-    $dompdf->loadHtml($html);
 
-    // Definindo o papel e a orientação
+        if (isset($_POST["submit_update_Venda"])) {
+            //lendo o arquivo HTML correspondente
+            
+            $html = file_get_contents('exemplo.html');
+            
+            //inserindo o HTML que queremos converter
 
-    $dompdf->setPaper('A4', 'landscape');
+            $dompdf->loadHtml($html);
 
-    // Renderizando o HTML como PDF
+            // Definindo o papel e a orientação
 
-    $dompdf->render();
+            $dompdf->setPaper('A4', 'landscape');
 
-    // Enviando o PDF para o browser
+            // Renderizando o HTML como PDF
 
-    $dompdf->stream();
-    
+            $dompdf->render();
+
+            // Enviando o PDF para o browser
+
+            $dompdf->stream();
+         
+        }
+        // Instanciar novo Model (Venda)
+        $Venda = new Venda();
+        // receber todos os venda e a quantidade de venda
+        $vendas = $Venda->relatorio();
+
+        require APP . 'view/venda/relatorio_vendas.php';
     }
+
     /**
      * ACTION: delete
      * Este método lida com o que acontece quando você se move para http://localhost/venda/delete

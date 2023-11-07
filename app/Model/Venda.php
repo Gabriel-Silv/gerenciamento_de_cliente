@@ -31,6 +31,35 @@ class Venda extends Model
         return $query->fetchAll();
     }
 
+    public function relatorio()
+    {
+        $sql = "SELECT
+					
+            v.id_cliente,
+            DATE_FORMAT(v.data_venda, '%d/%m/%Y') data_venda,
+            v.id as codigo,
+            v.status_venda,
+            v.total_venda,
+            sum(i.quantidade) as quantidade,
+            i.valor_unit,
+            f.nome as nome_vendedor,
+            c.razao_social 
+            FROM vendas v 
+            inner join itens_venda i on(i.id_venda = v.id)
+            inner join clientes c on(c.id = v.id_cliente)
+            inner join funcionarios f on(f.id = v.id_funcionario)
+            inner join produtos p on(p.id = i.id_produto)
+            group by i.id,v.id,c.id order by i.id,c.id";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        // fetchAll() é o método PDO que recebe todos os registros retornados, aqui em object-style porque definimos isso em
+        // core/controller.php! Se preferir obter um array associativo como resultado, use
+        // $query->fetchAll(PDO::FETCH_ASSOC); ou mude as opções em core/controller.php's PDO para
+        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+        return $query->fetchAll();
+    }
+
     /**
      * Adicionar um Produto para o banco
      * @param string $descricao Descrição

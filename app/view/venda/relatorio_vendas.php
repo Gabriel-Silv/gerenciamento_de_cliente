@@ -19,6 +19,11 @@
   #table-cliente tbody tr:nth-child(even) {
     background-color: #f2f2f2;
   }
+  #table-cliente{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
 </style>
 
 <body class="A4">
@@ -41,7 +46,13 @@
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($vendas as $venda): ?>
+            <?php 
+            $total_geral =0;
+            $quantidade=0;
+            foreach ($vendas as $venda): 
+              $total_geral = $total_geral+ $venda->total_venda;
+              $quantidade=$quantidade+$venda->quantidade;
+              ?>
             <tr>
               <td><center><?= isset($venda->codigo) ? htmlspecialchars($venda->codigo, ENT_QUOTES, 'UTF-8') : ''; ?></center></td>
               <td><?= isset($venda->data_venda) ? htmlspecialchars($venda->data_venda, ENT_QUOTES, 'UTF-8') : ''; ?></td>
@@ -50,17 +61,21 @@
               <td><center><?= isset($venda->quantidade) ? htmlspecialchars($venda->quantidade, ENT_QUOTES, 'UTF-8') : ''; ?></center></td>
               <td><?= isset($venda->status_venda) ? htmlspecialchars($venda->status_venda, ENT_QUOTES, 'UTF-8') : ''; ?></td>
               <td><?= isset($venda->total_venda) ? htmlspecialchars(number_format($venda->total_venda, 2, '.', ',') , ENT_QUOTES, 'UTF-8') : ''; ?></td>
-              $total_geral =+ $venda->total_venda;    
+                  
        <?php endforeach; ?>
-        <tr>
-        <td  colspan="5">
-            TOTAL VENDA
+       <tr style="background-color: #ddd;">
+        <td  colspan="4">
+            <b>TOTAL VENDA</b>
+        </td>
+        <td>
+        <b><center><?php echo $quantidade?></center></b>
         </td>
         <td  collspan="1">
-          QUANTIDADE
+        
+       
           </td>
           <td  collspan="1">
-            VALOR 
+            <b><?php echo number_format($total_geral, 2, '.', ','); ?></b>
           </td>
         </tr>
         </tbody>

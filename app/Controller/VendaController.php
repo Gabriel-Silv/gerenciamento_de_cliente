@@ -83,9 +83,16 @@ class VendaController
         // Instanciar novo Model (Venda)
         $Venda = new Venda();
         // receber todos os venda e a quantidade de venda
-        $vendas = $Venda->relatorio();
+        $vendas = $Venda->relatorio($_POST);
 
         require APP . 'view/venda/relatorio_vendas.php';
+    }
+
+    public function filterRelatorioVendas(){
+
+        require APP . 'view/_templates/header.php';
+        require APP . 'view/venda/filter_relatorio.php';
+        require APP . 'view/_templates/footer.php';
     }
 
     /**

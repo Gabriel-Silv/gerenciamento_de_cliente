@@ -31,10 +31,11 @@ class Venda extends Model
         return $query->fetchAll();
     }
 
-    public function relatorio()
+    public function relatorio($request)
     {
+ 
         $sql = "SELECT
-					
+				
             v.id_cliente,
             DATE_FORMAT(v.data_venda, '%d/%m/%Y') data_venda,
             v.id as codigo,
@@ -44,15 +45,34 @@ class Venda extends Model
             i.valor_unit,
             f.nome as nome_vendedor,
             c.razao_social 
-            FROM vendas v 
-            inner join itens_venda i on(i.id_venda = v.id)
+            FROM vendas v "; 
+
+             
+      
+
+    $sql .= " inner join itens_venda i on(i.id_venda = v.id)
             inner join clientes c on(c.id = v.id_cliente)
             inner join funcionarios f on(f.id = v.id_funcionario)
-            inner join produtos p on(p.id = i.id_produto)
-            group by i.id,v.id,c.id order by i.id,c.id";
+            inner join produtos p on(p.id = i.id_produto)";
+   $sql .=  " where 1=1 ";
+   $parameters = array();
+   //if (isset($request['data_inicial']) && isset($request['data_final'])) {
+    //$sql .= " AND v.data_venda BETWEEN :data_inicial AND :data_final";
+    //$parameters = array(':data_inicial' => $request['data_inicial'], ':data_final' => $request['data_final']);
+   // }
+    //if (isset($request['vendedor'])) {
+      //  $sql .= " AND v.id_funcionario = :id_vendedor";
+       // $parameters = array(':id_vendedor' => $request['vendedor']);
+      // }
+       if (isset($request['cliente'])) {
+        $sql .= " AND v.id_cliente = :id_cliente";
+        $parameters = array(':id_cliente' => $request['cliente']);
+       }
+   
+   $sql .= " group by i.id, v.id, c.id order by i.id ,c.id ";
+      
         $query = $this->db->prepare($sql);
-        $query->execute();
-
+        $query->execute($parameters);
         // fetchAll() é o método PDO que recebe todos os registros retornados, aqui em object-style porque definimos isso em
         // core/controller.php! Se preferir obter um array associativo como resultado, use
         // $query->fetchAll(PDO::FETCH_ASSOC); ou mude as opções em core/controller.php's PDO para

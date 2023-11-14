@@ -56,12 +56,10 @@ class VendaController
     public function relatorioVendas(){
         $dompdf = new Dompdf();
 
-
-
-        if (isset($_POST["submit_update_Venda"])) {
+        if (isset($_POST["gerarPdf"])) {
             //lendo o arquivo HTML correspondente
             
-            $html = file_get_contents('exemplo.html');
+            $html = file_get_contents($_POST["html"]);
             
             //inserindo o HTML que queremos converter
 
@@ -85,10 +83,16 @@ class VendaController
         // receber todos os venda e a quantidade de venda
         $vendas = $Venda->relatorio($_POST);
 
+        require APP . 'view/_templates/header.php';
         require APP . 'view/venda/relatorio_vendas.php';
+        require APP . 'view/_templates/footer.php';
     }
 
     public function filterRelatorioVendas(){
+        // Instanciar novo Model (Venda)
+        $Venda = new Venda();
+        // receber todos os venda e a quantidade de venda
+        $vendas = $Venda->relatorio($_POST);
 
         require APP . 'view/_templates/header.php';
         require APP . 'view/venda/filter_relatorio.php';

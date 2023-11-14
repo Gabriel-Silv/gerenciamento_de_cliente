@@ -25,14 +25,16 @@
     text-align: left;
   }
 </style>
-
+<button type="buttom" class="btn btn-primary" onclick="gerarPdf">Gerar  PDF</button>
+<button onclick="history.back()" class="btn btn-primary">Voltar</button>
+  <br>
 <body class="A4">
 
   <section class="sheet padding-10mm">
 
   <center><article><h1>Relatório de Vendas</h1></article></center>
   <hr>
-
+ 
   <table id="table-cliente" class="table-striped">
             <thead style="background-color: #ddd; font-weight: bold;">
             <tr>

@@ -254,4 +254,17 @@ $(function () {
     }
   });
 
+  gerarPdf= function () {
+    var htmlCapturado = $(".sheet").html();
+    data={'html': htmlCapturado,"geraPdf":true}
+     $.ajax({
+       url: '/vendas/gerapdf',
+       type: 'POST',
+       data: data,
+       success: function (data) {
+         $('#relatorio').html(data);
+       }
+     })
+   }
+
 });

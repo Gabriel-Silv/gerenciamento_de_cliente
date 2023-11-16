@@ -1,6 +1,6 @@
 <style>
   @page {
-    size: A4
+    size: A4 landscape;
   }
   /* Table header styles */
   #table-cliente thead {
@@ -10,7 +10,7 @@
   
   /* Table cell styles */
   #table-cliente td, #table-cliente th {
-    padding: 8px;
+    padding: 3px;
     border: 0px solid #ddd;
   }
   
@@ -25,7 +25,7 @@
   }
 </style>
 
-<form method="POST" action="<?php echo URL; ?>venda/relatoriovendas">
+<form method="POST" action="<?php echo URL; ?>venda/filterRelatorioVendas">
   <h1>Relatorio de Vendas Filtro</h1>
  <div class="row">
 <div class="col-md-6" >
@@ -36,45 +36,94 @@
   <label for="data" class="form-label">Data Final:</label>
   <input type="date" name="data_final" id="data_final" class="form-control">
 </div>
+<div class="col-md-2" >
+  <label for="status" class="form-label">Status:</label>
+  <select name="status" id="status" class="form-select form-control">
+    <option value="">Status</option>
+    <option value="Pendente">Pendente</option>
+    <option value="Cancelada">Cancelada</option>
+    <option value="Finalizada">Finalizada</option>
+    <!-- Adicione mais opções de statuses conforme necessário -->
+  </select>
+</div>
 <div class="col-md-6" >
   <label for="vendedor" class="form-label">Vendedor:</label>
   <select name="vendedor" id="vendedor" class="form-select form-control">
     <option value="">Selecione um Vendedor</option>
     <!-- Adicione mais opções de vendedores conforme necessário -->
   </select>
-  </div>
-  <div class="col-md-6" >
+</div>
+  <div class="col-md-4  " >
   <label for="cliente" class="form-label">Cliente:</label>
   <select name="cliente" id="cliente" class="form-select form-control">
     <option value="">Selecione um Cliente</option>
-</div>
+
     <!-- Adicione mais opções de clientes conforme necessário -->
   </select>
-
   <br>
+  </div>
 
-  <button type="submit" class="btn btn-primary">Visualizar relatório</button>
-  
-</form>
+   </div>
+
 <div class="row">
 <div class='col-md-12'>
-<table id="table-cliente" class="table-striped">
-            <thead style="background-color: #ddd; font-weight: bold;">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" rel="stylesheet" />
+<button type="submit" class="btn btn-primary">Filtrar</button>
+  <!--<a href="<?php echo URL; ?>venda/relatoriovendas" target="_blank"  class="btn btn-primary">Visualizar relatório</a> -->
+
+<button onclick="history.back()" class="btn btn-primary">Voltar</button>
+  <br>
+ 
+<body class="A4">
+
+  <section class="sheet padding-10mm">
+  <style>
+  @page {
+    size: A4 landscape;
+  }
+  /* Table header styles */
+  #table-cliente thead {
+    background-color: #ddd;
+    font-weight: bold;
+  }
+  
+  /* Table cell styles */
+  #table-cliente td, #table-cliente th {
+    padding: 3px;
+    border: 0px solid #ddd;
+  }
+  
+  /* Table stripe row styles */
+  #table-cliente tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  #table-cliente{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+</style>
+
+  <center><article><h1>Relatório de Vendas</h1></article></center>
+  <hr>
+  
+  <table id="table-cliente" class="">
+            <thead style="">
             <tr>
-                <td>Codigo</td>
-                <td>Data da Venda</td>
-                <td>Cliente</td>
-                <td>Vendedor</td>
-                <td>Itens</td>
-                <td>status</td>
-                <td>Valor Total</td>
+                <th>Cod.</th>
+                <th>Data</th>
+                <th style='width:200px;'>Cliente</th>
+                <th>Vendedor</th>
+                <th>Itens</th>
+                <th>status</th>
+                <th>Valor Total</th>
             </tr>
             </thead>
             <tbody>
             <?php 
             $total_geral =0;
             $quantidade=0;
-            foreach ($vendas as $venda): 
+            foreach ($vendas as $venda):
               $total_geral = $total_geral+ $venda->total_venda;
               $quantidade=$quantidade+$venda->quantidade;
               ?>
@@ -86,9 +135,9 @@
               <td><center><?= isset($venda->quantidade) ? htmlspecialchars($venda->quantidade, ENT_QUOTES, 'UTF-8') : ''; ?></center></td>
               <td><?= isset($venda->status_venda) ? htmlspecialchars($venda->status_venda, ENT_QUOTES, 'UTF-8') : ''; ?></td>
               <td><?= isset($venda->total_venda) ? htmlspecialchars(number_format($venda->total_venda, 2, '.', ',') , ENT_QUOTES, 'UTF-8') : ''; ?></td>
-                  
+    
        <?php endforeach; ?>
-       <tr style="background-color: #ddd;">
+        <tr style="background-color: #ddd;">
         <td  colspan="4">
             <b>TOTAL VENDA</b>
         </td>
@@ -96,15 +145,21 @@
         <b><center><?php echo $quantidade?></center></b>
         </td>
         <td  collspan="1">
-        
-       
           </td>
           <td  collspan="1">
             <b><?php echo number_format($total_geral, 2, '.', ','); ?></b>
           </td>
         </tr>
         </tbody>
-      </table>
-    </div>
-  </div>
+        </table>
+        <br>
+  <br>
+        
+  <br>
+  <br>
+<br>
+        
+  </section>
+  </form>
+  <button type="button" onclick="gerarPdf()" class="btn btn-primary">Gerar PDF</button>
 </div>

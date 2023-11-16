@@ -54,38 +54,39 @@ class VendaController
     }
 
     public function relatorioVendas(){
+       
         $dompdf = new Dompdf();
-
-        if (isset($_POST["gerarPdf"])) {
+        if (isset($_POST["geraPdf"])) {
             //lendo o arquivo HTML correspondente
-            
-            $html = file_get_contents($_POST["html"]);
-            
+           // $html = file_get_contents($_POST["html"]);
             //inserindo o HTML que queremos converter
-
-            $dompdf->loadHtml($html);
-
+        $dompdf->loadHtml($_POST["html"]);
             // Definindo o papel e a orientação
-
-            $dompdf->setPaper('A4', 'landscape');
-
+           $dompdf->setPaper('A4', 'landscape');
             // Renderizando o HTML como PDF
-
-            $dompdf->render();
-
+           $dompdf->render();
+           file_put_contents('relatorioVendas.pdf', $dompdf->output());
             // Enviando o PDF para o browser
-
-            $dompdf->stream();
-         
+           //$dompdf->stream('relatorioVendas.pdf',array('Attachment'=>1));
+           
+           header("Location:/relatorioVendas.pdf");
         }
         // Instanciar novo Model (Venda)
         $Venda = new Venda();
         // receber todos os venda e a quantidade de venda
         $vendas = $Venda->relatorio($_POST);
-
         require APP . 'view/_templates/header.php';
         require APP . 'view/venda/relatorio_vendas.php';
         require APP . 'view/_templates/footer.php';
+    }
+
+    public function conteVendapendente(){
+       // Instance new Model (Venda)
+       $Venda = new venda();
+       $statusVenda = $_POST['statusVenda'];
+       $amount_of_venda = $Venda->getAmountOfvenda($statusVenda);
+       // simplesmente ecoar alguma coisa. Uma API supersimple seria possível fazendo eco ao JSON aqui
+       echo $amount_of_venda;
     }
 
     public function filterRelatorioVendas(){

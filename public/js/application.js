@@ -236,6 +236,23 @@ $(function () {
         $('#cpf_cnpj').val(cliente.cnpj);
       }
     });
+
+  }
+
+  getconteveda = function () {
+    var codigo = $('#contevendapendente').val();
+    if (codigo.trim() === "") {
+      return;
+    }
+    $.ajax({
+      url: '/clientes/buscaClienteById/' + codigo,
+      type: 'GET',
+      success: function (data) {
+        var cliente = JSON.parse(data);
+        $('#cpf_cnpj').val(cliente.cnpj);
+      }
+    });
+
   }
 
   $(document).on('keydown', 'input', function (e) {
@@ -253,18 +270,38 @@ $(function () {
       }
     }
   });
+  
+  visualizarRelatorio = function () {
+    formData = new FormData();
+    data={
+      'data_inicial': $('#data_inicial').val(),
+      'data_final': $('#data_final').val(),
+      'cliente': $('#cliente').val(),
+      'vendedor': $('#vendedor').val() ,
+    }
+    $.ajax({
+      url: '/vendas/relatorio',
+      type: 'GET',
+      success: function (data) {
+        $('#relatorio').html(data);
+      }
+    })
+  }
 
-  gerarPdf= function () {
-    var htmlCapturado = $(".sheet").html();
-    data={'html': htmlCapturado,"geraPdf":true}
-     $.ajax({
-       url: '/vendas/gerapdf',
-       type: 'POST',
-       data: data,
-       success: function (data) {
-         $('#relatorio').html(data);
-       }
-     })
-   }
-
+   gerarPdf= function () {
+   var htmlCapturado = $(".sheet").html();
+   debugger;
+   data={'html': htmlCapturado,"geraPdf":true}
+    $.ajax({
+      url: '/venda/relatoriovendas',
+      type: 'POST',
+      data: data,
+      datatype: 'json',
+      success: function (data) {
+        //$('#relatorio').html(data);
+        window.open('/relatoriovendas.pdf', '_blank');
+      }
+    })
+  } 
+ 
 });

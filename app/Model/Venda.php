@@ -61,6 +61,11 @@ class Venda extends Model
     $parameters[':data_final'] = $request['data_final'];
    }
 
+   if (isset($request['status']) &&(!empty($request['status']))) {
+    $sql .= " AND v.status_venda = :status_venda";
+    $parameters[':status_venda'] = $request['status'];
+   }
+
    if (isset($request['vendedor']) &&(!empty($request['vendedor']))) {
     $sql .= " AND v.id_funcionario = :id_vendedor";
     $parameters[':id_vendedor'] = $request['vendedor'];
@@ -83,7 +88,7 @@ class Venda extends Model
         // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
         return $query->fetchAll();
     }
-
+    
     /**
      * Adicionar um Produto para o banco
      * @param string $descricao Descrição
@@ -211,9 +216,10 @@ class Venda extends Model
      * como usar mais de um modelo em um controlador
      * (veja application/controller/vendas.php para detalhes)
      */
-    public function getAmountOfVenda()
+    public function getAmountOfVenda($statusvendas)
     {
-        $sql = "SELECT COUNT(id) AS amount_of_vendas FROM vendas";
+        $sql = "SELECT COUNT(id) AS amount_of_vendas FROM vendas where status_vendas = :statusVendas";
+        $parameters = array(':statusVendas' => $statusVendas);
         $query = $this->db->prepare($sql);
         $query->execute();
 

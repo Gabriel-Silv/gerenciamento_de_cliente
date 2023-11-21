@@ -216,12 +216,18 @@ class Venda extends Model
      * como usar mais de um modelo em um controlador
      * (veja application/controller/vendas.php para detalhes)
      */
-    public function getAmountOfVenda($statusvendas)
+    public function getAmountOfVenda($statusvendas = null)
     {
-        $sql = "SELECT COUNT(id) AS amount_of_vendas FROM vendas where status_vendas = :statusVendas";
-        $parameters = array(':statusVendas' => $statusVendas);
+        $filter = ' ';
+        $parameters = null;
+        
+        if($statusvendas != null){
+            $filter = ' where status_venda = :statusVendas';
+            $parameters = array(':statusVendas' => $statusvendas);
+        }
+        $sql = "SELECT COUNT(id) AS amount_of_vendas FROM vendas".$filter;
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $query->execute($parameters);
 
         // fetch() é o método do PDO que recebe exatamente um registro
         return $query->fetch()->amount_of_vendas;

@@ -8,6 +8,7 @@
 namespace Mini\Controller;
 
 use Dompdf\Dompdf;
+use Mini\Model\Funcionario;
 use Mini\Model\Venda;
 use Mini\Model\ItensVenda;
 use PDO;
@@ -21,9 +22,14 @@ class VendaController
     {
         // Instanciar novo Model (Venda)
         $Venda = new Venda();
+        $Usuario = new Funcionario();
         // receber todos os venda e a quantidade de venda
         $vendas = $Venda->getAllvenda();
-        $amount_of_venda = $Venda->getAmountOfvenda();
+        $amount_of_venda_concluida = $Venda->getAmountOfvenda('concluida');
+        $amount_of_venda_pendente = $Venda->getAmountOfvenda('pendente');
+        $amount_of_venda_cancelada = $Venda->getAmountOfvenda('cancelada');
+        $amount_of_funcionario = $Usuario->getAmountOfFuncionarios();
+        
        // carregar a view venda. com as views nós podemos mostrar os $venda e a $amount_of_venda facilmente
         require APP . 'view/_templates/header.php';
         require APP . 'view/venda/index.php';
@@ -80,7 +86,7 @@ class VendaController
         require APP . 'view/_templates/footer.php';
     }
 
-    public function conteVendapendente(){
+    public function conteVendapendente($statusVenda){
        // Instance new Model (Venda)
        $Venda = new venda();
        $statusVenda = $_POST['statusVenda'];

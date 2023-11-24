@@ -71,7 +71,7 @@ class Usuario extends Model
      */
     public function getUsuario($usuario_id)
     {
-        $sql = "SELECT * FROM usuarios WHERE id = :usuario_id LIMIT 1";
+        $sql = "SELECT * FROM usuario WHERE id = :usuario_id LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array('usuario_id' => $usuario_id);
         // útil para debugar: você pode ver o SQL atrás da construção usando:
@@ -80,6 +80,19 @@ class Usuario extends Model
         // fetch() é o método do PDO que recebe exatamente um registro
         return ($query->rowcount() ? $query->fetch() : false);
     }
+
+    public function login($email, $password)
+    {
+        $sql = "SELECT * FROM usuario WHERE email = :email and password = :password LIMIT 1";
+        $query = $this->db->prepare($sql);
+        $parameters = array('email' => $email, 'password' => $password);
+        // útil para debugar: você pode ver o SQL atrás da construção usando:
+        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        $query->execute($parameters);
+        // fetch() é o método do PDO que recebe exatamente um registro
+        return ($query->rowcount() ? $query->fetch() : false);
+    }
+
     public function getUsuarioCombobox()
     {
         $sql = "SELECT id,nome FROM usuarios where perfil =:vendedor";

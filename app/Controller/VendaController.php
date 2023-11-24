@@ -11,6 +11,7 @@ use Dompdf\Dompdf;
 use Mini\Model\Funcionario;
 use Mini\Model\Venda;
 use Mini\Model\ItensVenda;
+use Mini\Controller\LoginController;
 use PDO;
 class VendaController
 {
@@ -20,6 +21,7 @@ class VendaController
      */
     public function index()
     {
+        LoginController::verificaLogin();
         // Instanciar novo Model (Venda)
         $Venda = new Venda();
         $Usuario = new Funcionario();
@@ -51,6 +53,7 @@ class VendaController
      */
     public function add()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do Venda
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
@@ -60,6 +63,7 @@ class VendaController
     }
 
     public function relatorioVendas(){
+        LoginController::verificaLogin();
        
         $dompdf = new Dompdf();
         if (isset($_POST["geraPdf"])) {
@@ -96,6 +100,7 @@ class VendaController
     }
 
     public function filterRelatorioVendas(){
+        LoginController::verificaLogin();
         // Instanciar novo Model (Venda)
         $Venda = new Venda();
         // receber todos os venda e a quantidade de venda
@@ -117,6 +122,7 @@ class VendaController
      */
    
      public function finalizarVenda(){
+        LoginController::verificaLogin();
         try{
 
         $dadosVendasRequest=json_decode($_POST['dados_venda'],1);
@@ -141,6 +147,7 @@ class VendaController
   }
      public function delete($venda_id)
     {
+        LoginController::verificaLogin();
         if (isset($venda_id)) {
             $Venda = new Venda();
             $Venda->delete($venda_id);
@@ -154,6 +161,7 @@ class VendaController
      */
     public function edit($venda_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um Venda que deve ser editado
         if (isset($venda_id)) {
             // Instanciar novo Model (Venda)
@@ -178,6 +186,7 @@ class VendaController
     }
     public function insert()
     {
+        LoginController::verificaLogin();
                  // carregar a view venda. nas views nós podemos mostrar $cliente facilmente
                  require APP . 'view/_templates/header.php';
                  require APP . 'view/venda/insert.php';
@@ -193,6 +202,7 @@ class VendaController
      */
     public function update()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do Venda
         if (isset($_POST["submit_update_Venda"])) {
             // Instanciar novo Model (Venda)
@@ -209,6 +219,7 @@ class VendaController
      */
     public function ajaxGetStats()
     {
+        LoginController::verificaLogin();
         // Instance new Model (Venda)
         $Venda = new venda();
         $amount_of_venda = $Venda->getAmountOfvenda();
@@ -216,6 +227,7 @@ class VendaController
         echo $amount_of_venda;
     }
     public function saveIntensVenda($itensVenda) {
+        LoginController::verificaLogin();
         foreach ($itensVenda as $item) {
           $itemVenda = new ItensVenda();
           $item['id_venda']=$itensVenda['id_venda'];
@@ -226,6 +238,7 @@ class VendaController
         return json_encode($response);
       }
       function getDadosVendas($dadosVendas) {
+        LoginController::verificaLogin();
         $dadosVendas['id_cliente'] = $dadosVendas[0]['cliente'];
         $dadosVendas['id_vendedor'] = $dadosVendas[0]['vendedor'];
         $dadosVendas['status_venda']='finalizada';

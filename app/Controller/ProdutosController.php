@@ -6,7 +6,7 @@
  */
 
 namespace Mini\Controller;
-
+use Mini\Controller\LoginController;
 use Mini\Model\Produto;
 use Exception;
 class ProdutosController
@@ -17,6 +17,7 @@ class ProdutosController
      */
     public function index()
     {
+        LoginController::verificaLogin();
         // Instanciar novo Model (Produto)
         $Produto = new Produto();
         // receber todos os produtos e a quantidade de produtos
@@ -32,6 +33,7 @@ class ProdutosController
 
 
     public function getProdutoPorcodigo($codigo){
+        LoginController::verificaLogin();
         try {
             $Produto = new Produto();
             $produtos = $Produto->getProduto($codigo);
@@ -63,6 +65,7 @@ class ProdutosController
 
     public function add()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do produto
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
@@ -89,6 +92,7 @@ class ProdutosController
      */
     public function delete($produto_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um produto que deve ser deletado
         if (isset($produto_id)) {
             // Instanciar novo Model (Produto)
@@ -108,6 +112,7 @@ class ProdutosController
      */
     public function edit($produto_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um produto que deve ser editado
         if (isset($produto_id)) {
             // Instanciar novo Model (Produto)
@@ -133,6 +138,7 @@ class ProdutosController
 
     public function insert()
     {
+        LoginController::verificaLogin();
                  // carregar a view produtos. nas views nós podemos mostrar $cliente facilmente
                  require APP . 'view/_templates/header.php';
                  require APP . 'view/produtos/insert.php';
@@ -149,6 +155,7 @@ class ProdutosController
      */
     public function update()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do produto
         if (isset($_POST["submit_update_produto"])) {
             // Instanciar novo Model (Produto)

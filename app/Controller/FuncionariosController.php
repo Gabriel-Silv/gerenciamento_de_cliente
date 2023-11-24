@@ -6,7 +6,7 @@
  */
 
 namespace Mini\Controller;
-
+use Mini\Controller\LoginController;
 use Exception;
 use Mini\Model\Funcionario;
 
@@ -18,6 +18,7 @@ class FuncionariosController
      */
     public function index()
     {
+        LoginController::verificaLogin();
         try {
             $Funcionario = new Funcionario();
             $funcionarios = $Funcionario->getAllFuncionarios();
@@ -32,6 +33,7 @@ class FuncionariosController
         require APP . 'view/_templates/footer.php';
     }
    public function obterTodosFuncionariosToCombox(){
+    LoginController::verificaLogin();
     try {
         $Funcionario = new Funcionario();
         $funcionarios = $Funcionario->getFuncionarioCombobox();
@@ -49,6 +51,7 @@ class FuncionariosController
    
     public function insert()
     {
+        LoginController::verificaLogin();
         // carregar a view clientes. nas views nós podemos mostrar $cliente facilmente
         require APP . 'view/_templates/header.php';
         require APP . 'view/funcionarios/insert.php';
@@ -64,6 +67,7 @@ class FuncionariosController
      */
     public function add()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do funcionario
         if (isset($_POST["submit_insert_funcionario"])) {
             // Instanciar novo Model (Funcionario)
@@ -102,6 +106,7 @@ class FuncionariosController
      */
     public function edit($funcionario_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um funcionario que deve ser editado
         if (isset($funcionario_id)) {
             // Instanciar novo Model (Funcionario)
@@ -135,6 +140,7 @@ class FuncionariosController
      */
     public function update()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do funcionario
         if (isset($_POST["submit_update_funcionario"])) {
             // Instanciar novo Model (Funcionario)
@@ -156,6 +162,7 @@ class FuncionariosController
         // simplesmente ecoar alguma coisa. Uma API supersimple seria possível fazendo eco ao JSON aqui
         echo $amount_of_funcionarios;
     }
+    
     public function redirect($url)
     {
         header('location: ' . URL . $url);

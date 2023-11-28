@@ -4,7 +4,7 @@
             <h3 class="card-title">Inserção de Funcionário</h3>
         </div>
         <div class="card-body">
-        <form action="<?php echo URL; ?>funcionarios/add" method="POST">
+        <form action="<?php echo URL; ?>funcionarios/add" method="POST" enctype="multipart/form-data">
           <div class="row">
             <div class="col-sm-6">
             <input type="hidden" name="funcionario_id" value=""/>

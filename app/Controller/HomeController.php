@@ -9,6 +9,7 @@ namespace Mini\Controller;
 
 use Mini\Model\Funcionario;
 use Mini\Model\Venda;
+use Mini\Controller\LoginController;
 
 class HomeController
 {
@@ -18,6 +19,7 @@ class HomeController
      */
     public function index()
     {
+        LoginController::verificaLogin();
         $Venda = new Venda();
         $Usuario = new Funcionario();
         // receber todos os venda e a quantidade de venda

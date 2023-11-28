@@ -6,7 +6,7 @@
  */
 
 namespace Mini\Controller;
-
+use Mini\Controller\LoginController;
 use Mini\Model\Cliente;
 use Mini\Model\Endereco;
 use Exception;
@@ -19,6 +19,7 @@ class ClientesController
     public function index()
     {
    
+        LoginController::verificaLogin();
 	  // Instanciar novo Model (Cliente)
         $Cliente = new Cliente();
         // receber todos os clientes e a quantidade de clientes
@@ -32,11 +33,13 @@ class ClientesController
     }
 
     function buscaClienteById($cliente_id){
+        LoginController::verificaLogin();
            $Cliente = new Cliente();
            $clientes = $Cliente->getCliente($cliente_id);
            echo json_encode($clientes);
     }
     public function obterTodosClientesToCombox(){
+        LoginController::verificaLogin();
         try {
             $Cliente = new Cliente();
             $clientes = $Cliente->getClienteCombobox();
@@ -65,6 +68,7 @@ class ClientesController
      */
     public function add()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do cliente
         if (isset($_POST["submit_add_cliente"])) {
             // Instanciar novo Model (Cliente)
@@ -101,6 +105,7 @@ class ClientesController
      */
     public function delete($cliente_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um cliente que deve ser deletado
         if (isset($cliente_id)) {
             // Instanciar novo Model (Cliente)
@@ -118,6 +123,7 @@ class ClientesController
      */
     public function edit($cliente_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um cliente que deve ser editado
         if (isset($cliente_id)) {
             // Instanciar novo Model (Cliente)
@@ -152,6 +158,7 @@ class ClientesController
      */
     public function update()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do cliente
         if (isset($_POST["submit_update_cliente"])) {
             // Instanciar novo Model (Cliente)
@@ -167,6 +174,7 @@ class ClientesController
 
     public function insert()
     {
+        LoginController::verificaLogin();
                  // carregar a view clientes. nas views nós podemos mostrar $cliente facilmente
                  require APP . 'view/_templates/header.php';
                  require APP . 'view/clientes/insert.php';

@@ -85,7 +85,7 @@ class Usuario extends Model
     {
         $sql = "SELECT * FROM usuario WHERE email = :email and password = :password LIMIT 1";
         $query = $this->db->prepare($sql);
-        $parameters = array('email' => $email, 'password' => $password);
+        $parameters = array('email' => $email, 'password' => md5($password) );
         // útil para debugar: você pode ver o SQL atrás da construção usando:
         // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);

@@ -25,17 +25,26 @@ class LoginController {
         $user = $usuario->login($email, $password);
        // var_dump($password);
    
-        $loginIstrue=strval($password)==strval($user->password);
+       $loginIstrue=false;
+         if ($user) {
+            $loginIstrue=(md5($password)==$user->password);
+        }
         //password_verify($password, $user->password)
-         if (!$user ||  ($loginIstrue==false)) {
-           
-            echo $this->ajaxResponse("message", [
-                "type" => "error",
+        if (!$user ||  ($loginIstrue==false)) {
+            
+            $message = [
+                "type" => "alert",
                 "message" => "Email ou senha invalido"
-            ]);
+            ];
+                //echo $this->ajaxResponse("message", [
+                //"type" => "error",
+                //"message" => "Email ou senha invalido"
+            //]);
+            require APP . 'view/login/index.php';
             return;
         }
-        $_SESSION['usuario'] = $usuario;
+        session_start();
+        $_SESSION['usuario'] = $user;
         $this->redirect( URL .'home/index');
         die('aqui');
      }

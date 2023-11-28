@@ -1,3 +1,4 @@
 <div class="container">
-    <p>Página não encontrada. Será mostrada quando uma página (= controller / method) não existir.</p>
+    <p><center>Página não encontrada. Será mostrada quando uma página (= controller / method) não existir.</center></p>
+    <?php //header('location: ' . URL . 'login/index'); ?>
 </div>

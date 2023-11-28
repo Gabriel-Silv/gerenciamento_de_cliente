@@ -6,7 +6,7 @@
  */
 
 namespace Mini\Controller;
-
+use Mini\Controller\LoginController;
 use Mini\Model\Endereco;
 
 class EnderecosController
@@ -18,6 +18,7 @@ class EnderecosController
     public function index()
     {
    
+        LoginController::verificaLogin();
 	  // Instanciar novo Model (Endereco)
         $Endereco = new Endereco();
         // receber todos os Enderecos e a quantidade de Enderecos
@@ -40,6 +41,7 @@ class EnderecosController
      */
     public function add()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do Endereco
         if (isset($_POST["submit_add_Endereco"])) {
             // Instanciar novo Model (Endereco)
@@ -63,6 +65,7 @@ class EnderecosController
      */
     public function delete($Endereco_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um Endereco que deve ser deletado
         if (isset($Endereco_id)) {
             // Instanciar novo Model (Endereco)
@@ -82,6 +85,7 @@ class EnderecosController
      */
     public function edit($Endereco_id)
     {
+        LoginController::verificaLogin();
         // se temos um id de um Endereco que deve ser editado
         if (isset($Endereco_id)) {
             // Instanciar novo Model (Endereco)
@@ -115,6 +119,7 @@ class EnderecosController
      */
     public function update()
     {
+        LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do Endereco
         if (isset($_POST["submit_update_Endereco"])) {
             // Instanciar novo Model (Endereco)

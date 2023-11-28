@@ -17,6 +17,9 @@
           <div class="card-body">
           <form action="<?php echo URL; ?>login/index" method="POST">
               <div class="form-group">
+              <?php if(isset($message)) { ?>
+               <div class="alert alert-danger"><?php echo $message['message'] ?></div>
+               <?php } ?>
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
               </div>

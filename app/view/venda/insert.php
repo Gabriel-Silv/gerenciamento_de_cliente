@@ -31,7 +31,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>CPF/CNPJ</label>
-                            <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="" required disabled class="form-control" />
+                            <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="" required disabled class="form-control" data-inputmask='"mask": "99.999.999/9999-99"' data-mask/>
                         </div>
                     </div>
                 </div>

@@ -9,6 +9,14 @@
             <div class="col-sm-6">
             <input type="hidden" name="funcionario_id" value=""/>
             <!-- text input -->
+            <div class="form-group">
+                    <!-- <label for="customFile">Custom File</label> -->
+
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input " id="customFile" name="foto-File">
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                  </div>
               <div class="form-group">
                  <label>Nome</label>
                  <input type="text" name="nome" value="" required class="form-control"/>
@@ -17,7 +25,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                      <label>CPF</label>
-                    <input autofocus type="text" name="cpf" value="" required class="form-control" />
+                    <input autofocus type="text" name="cpf" value="" required class="form-control" data-inputmask='"mask": "999.999.999-99"' data-mask/>
                 </div>
             </div>
          </div>
@@ -26,7 +34,7 @@
             <div class="col-sm-4">
                <div class="form-group">
                   <label>Telefone</label>
-                  <input type="text" name="telefone" value="" id="telefone" class="form-control"/>
+                  <input type="text" name="telefone" value="" id="telefone" class="form-control" data-inputmask='"mask": "(99) 9999-99999"' data-mask/>
                </div>
             </div>
             <div class="col-sm-4">
@@ -38,12 +46,6 @@
                      <option value="Cliente">Cliente</option>
                   </select>
                  </div>
-            </div>
-            <div class="col-sm-4">
-               <div class="form-group">
-                    <label>telefone</label>
-                    <input type="text" name="telfone" value="" id ="telefone" required class="form-control"/>
-               </div>
             </div>
 
             <div class="col-sm-4">

@@ -70,6 +70,14 @@ class FuncionariosController
         LoginController::verificaLogin();
         // se tivermos dados POST para criar uma nova entrada do funcionario
         if (isset($_POST["submit_insert_funcionario"])) {
+            if(isset($_FILES['foto-File']))
+            {
+                $ext = strtolower(substr($_FILES['foto-File']['name'],-4)); //Pegando extensão do arquivo
+                $new_name = date("Y.m.d-H.i.s") . $ext; //Definindo um novo nome para o arquivo
+                $dir = './imagens/'; //Diretório para uploads 
+                move_uploaded_file($_FILES['foto-File']['tmp_name'], $dir.$new_name); //Fazer upload do arquivo
+                echo("Imagen enviada com sucesso!");
+            }
             // Instanciar novo Model (Funcionario)
             $Funcionario = new Funcionario();
             // do add() em Model/Model.php

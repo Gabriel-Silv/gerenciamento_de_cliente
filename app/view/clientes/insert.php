@@ -35,13 +35,13 @@
             <div class="col-sm-4">
                <div class="form-group">
                   <label>Telefone</label>
-                  <input type="text" name="telefone" value="" id="telefone" class="form-control"/>
+                  <input type="tel" name="telefone" value="" id="telefone"  class="form-control" data-inputmask='"mask": "(99) 9999-99999"' data-mask>
                </div>
             </div>
             <div class="col-sm-4">
                <div class="form-group">
                   <label>CNPJ</label>
-                  <input type="text" name="cnpj" value="" id="cnpj" class="form-control"/>
+                  <input type="text" name="cnpj" value="" id="cnpj" class="form-control" data-inputmask='"mask": "99.999.999/9999-99"' data-mask/>
                </div>
             </div>
         </div> <!--- end row 2 -->
@@ -51,7 +51,7 @@
 
                 <div class="col-sm-4">
                     <label>CEP</label>
-                    <input type="text" name="cep" value=""   id ="cep" onblur="buscarEnderecoCepApi(this.value);" class="form-control"/>
+                    <input type="text" name="cep" value=""   id ="cep" onblur="buscarEnderecoCepApi(this.value);" class="form-control" data-inputmask='"mask": "999.999.999-99"' data-mask/>
                 </div>
 
                 <div class="col-sm-8">

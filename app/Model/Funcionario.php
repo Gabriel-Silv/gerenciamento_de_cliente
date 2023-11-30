@@ -71,7 +71,10 @@ class Funcionario extends Model
      */
     public function getFuncionario($funcionario_id)
     {
-        $sql = "SELECT * FROM funcionarios WHERE id = :funcionario_id LIMIT 1";
+        $sql = "SELECT * FROM funcionarios 
+        inner join usuario on usuario.id = 
+        funcionarios.id_usuario
+        WHERE funcionarios.id = :funcionario_id LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array('funcionario_id' => $funcionario_id);
         // útil para debugar: você pode ver o SQL atrás da construção usando:
@@ -136,6 +139,7 @@ class Funcionario extends Model
             ':email' => $request['email'],
             ':password' => md5($request['password']),
             ':status' => true,
+            ':url_foto' => $request['url_foto'],
         );
     }
 
@@ -144,7 +148,7 @@ class Funcionario extends Model
       try{
  
        
-        $sql = "INSERT INTO usuario (login,perfil,email,password,status) VALUES (:login,:perfil,:email,:password,:status)";
+        $sql = "INSERT INTO usuario (login,perfil,email,password,status,url_foto) VALUES (:login,:perfil,:email,:password,:status,:url_foto)";
         $query = $this->db->prepare($sql);
         $parameters = $this->setRequestParamsUsuario($request);
        

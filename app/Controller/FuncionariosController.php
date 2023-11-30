@@ -74,10 +74,11 @@ class FuncionariosController
             {
                 $ext = strtolower(substr($_FILES['foto-File']['name'],-4)); //Pegando extensão do arquivo
                 $new_name = date("Y.m.d-H.i.s") . $ext; //Definindo um novo nome para o arquivo
-                $dir = './imagens/'; //Diretório para uploads 
+                $dir = './img/'; //Diretório para uploads 
                 move_uploaded_file($_FILES['foto-File']['tmp_name'], $dir.$new_name); //Fazer upload do arquivo
                 echo("Imagen enviada com sucesso!");
             }
+           $_POST['url_foto']=$dir.$new_name;
             // Instanciar novo Model (Funcionario)
             $Funcionario = new Funcionario();
             // do add() em Model/Model.php

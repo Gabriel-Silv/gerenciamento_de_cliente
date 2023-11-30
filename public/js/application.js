@@ -161,6 +161,11 @@ $(function () {
     carregarFuncionarios();
     carregarClientes();
     localStorage.removeItem('itemData');
+    $('#input-file').change(function() {
+      var file = $(this)[0].files[0];
+      var imageUrl = URL.createObjectURL(file);
+      $('#img-preview').attr('src', imageUrl);
+    });
   });
 
   function carregarFuncionarios() {

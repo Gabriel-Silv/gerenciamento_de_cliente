@@ -102,11 +102,11 @@ class Funcionario extends Model
      */
     public function update($request)
     {
-        $sql = "UPDATE funcionarios SET nome = :nome, cpf = :cpf, obs = :obs,perfil = :perfil WHERE id = :funcionario_id";
+        $sql = "UPDATE funcionarios SET nome = :nome, cpf = :cpf, telefone = :telefone, perfil = :perfil, email = :email WHERE id_usuario = :id_usuario";
         $query = $this->db->prepare($sql);
         $parameters = $this->setRequestParams($request);
         // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
     }
 
@@ -121,12 +121,13 @@ class Funcionario extends Model
     public function setRequestParams($request)
     {
         return array(
-            ':nome' => $request['nome'],
+            ':nome' => @$request['nome'],
             ':cpf' => $request['cpf'],
             ':telefone' => $request['telefone'],
             ':perfil' => $request['perfil'],
             ':email' => $request['email'],
-            ':id_usuario' => $request['id_usuario'],
+            ':id_usuario' => intval($request['id_usuario']),
+            ':funcionario_id' => @$request['funcionario_id'],
         );
 
     }
@@ -134,6 +135,7 @@ class Funcionario extends Model
     public function setRequestParamsUsuario($request)
     {
         return array(
+            ':nome' => $request['nome'],
             ':login' => $request['email'],
             ':perfil' => $request['perfil'],
             ':email' => $request['email'],
@@ -148,7 +150,7 @@ class Funcionario extends Model
       try{
  
        
-        $sql = "INSERT INTO usuario (login,perfil,email,password,status,url_foto) VALUES (:login,:perfil,:email,:password,:status,:url_foto)";
+        $sql = "INSERT INTO usuario (nome,login,perfil,email,password,status,url_foto) VALUES (:nome, :login,:perfil,:email,:password,:status,:url_foto)";
         $query = $this->db->prepare($sql);
         $parameters = $this->setRequestParamsUsuario($request);
        

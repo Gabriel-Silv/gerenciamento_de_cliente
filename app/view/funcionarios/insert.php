@@ -48,7 +48,7 @@
                         <div class="form-group">
                           
                                 <label>Nome</label>
-                                <input type="text" name="nome" value="" required class="form-control" />
+                                <input type="text" name="nome" id="nome" value="" required class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-6">

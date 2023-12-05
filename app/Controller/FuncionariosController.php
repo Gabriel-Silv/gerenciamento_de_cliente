@@ -74,7 +74,7 @@ class FuncionariosController
             {
                 $ext = strtolower(substr($_FILES['foto-File']['name'],-4)); //Pegando extensão do arquivo
                 $new_name = date("Y.m.d-H.i.s") . $ext; //Definindo um novo nome para o arquivo
-                $dir = './img/'; //Diretório para uploads 
+                $dir = 'img/'; //Diretório para uploads 
                 move_uploaded_file($_FILES['foto-File']['tmp_name'], $dir.$new_name); //Fazer upload do arquivo
                 echo("Imagen enviada com sucesso!");
             }
@@ -117,6 +117,7 @@ class FuncionariosController
     {
         LoginController::verificaLogin();
         // se temos um id de um funcionario que deve ser editado
+       
         if (isset($funcionario_id)) {
             // Instanciar novo Model (Funcionario)
             $Funcionario = new Funcionario();
@@ -155,7 +156,7 @@ class FuncionariosController
             // Instanciar novo Model (Funcionario)
             $Funcionario = new Funcionario();
             // fazer update() do Model/Model.php
-            $Funcionario->update($_POST["nome"], $_POST["cpf"], $_POST["obs"], $_POST['funcionario_id']);
+            $Funcionario->update($_POST);
         }
         $this->redirect('funcionarios/index');
     }

@@ -155,8 +155,6 @@ class Usuario extends Model
     public function createUsuario($request)
     {
       try{
- 
-       
         $sql = "INSERT INTO usuario (login,perfil,email,password,status) VALUES (:login,:perfil,:email,:password,:status)";
         $query = $this->db->prepare($sql);
         $parameters = $this->setRequestParamsUsuario($request);
@@ -169,17 +167,13 @@ class Usuario extends Model
                 'id_usuario' => $this->db->lastInsertId(),
             );
         }
-      
         }catch(Exception $e){
-          
             return array(
                 'success' => false,
                 'error' => $e->getMessage(),
             );
         }
-
         // útil para debugar: você pode ver o SQL atrás da construção usando:
-         echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
     }
 }

@@ -12,7 +12,7 @@
                         <div class="col-sm-6">
                         <div class="form-group">
                             <div >
-                                <img id="img-preview" src="../../img/demo-image.png" style="
+                                <img  name="foto-File"id="img-preview" src="../../img/demo-image.png" style="
                                                       width: 89px;
                                                       height: 90px;
                                                        border: solid 1px;

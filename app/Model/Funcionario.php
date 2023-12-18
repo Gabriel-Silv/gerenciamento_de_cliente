@@ -35,18 +35,24 @@ class Funcionario extends Model
     {
        try{
         $this->db->beginTransaction();
-        $sql = "INSERT INTO funcionarios (nome,cpf,telefone,perfil,email,id_usuario) VALUES (:nome,:cpf,:telefone,:perfil,:email,:id_usuario)";
-        $query = $this->db->prepare($sql);
         //cria um usuário para vincular a um funcionário
         $resultUsuario=$this->createUsuario($request);
         $request['id_usuario']=$resultUsuario['id_usuario'];
         $parameters = $this->setRequestParams($request);
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+      
+        //ini_set('display_errors',1);
+        //ini_set('display_startup_erros',1);
+        //error_reporting(E_ALL);
+
+        $sql = "INSERT INTO funcionarios (nome,cpf,telefone,perfil,email,id_usuario) VALUES (:nome,:cpf,:telefone,:perfil,:email,:id_usuario)";
+        $query = $this->db->prepare($sql);
         $result = $query->execute($parameters);
         $this->db->commit();
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
         return $result;
-      }catch(PDOException $e){
+      }catch(Exception $e){
+        var_dump($e);
+        die('aqui');
         $this->db->rollback();
      }
    }
@@ -72,8 +78,7 @@ class Funcionario extends Model
     public function getFuncionario($funcionario_id)
     {
         $sql = "SELECT * FROM funcionarios 
-        inner join usuario on usuario.id = 
-        funcionarios.id_usuario
+        inner join usuario on usuario.id = funcionarios.id_usuario
         WHERE funcionarios.id = :funcionario_id LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array('funcionario_id' => $funcionario_id);
@@ -102,9 +107,11 @@ class Funcionario extends Model
      */
     public function update($request)
     {
-        $sql = "UPDATE funcionarios SET nome = :nome, cpf = :cpf, telefone = :telefone, perfil = :perfil, email = :email WHERE id_usuario = :id_usuario";
+       
+        $sql = "UPDATE funcionarios SET nome = :nome,cpf = :cpf, telefone = :telefone,perfil = :perfil,email = :email WHERE id_usuario = :id_usuario";
         $query = $this->db->prepare($sql);
         $parameters = $this->setRequestParams($request);
+        //var_dump($parameters);
         // útil para debugar: você pode ver o SQL atrás da construção usando:
         //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
         $query->execute($parameters);
@@ -127,7 +134,6 @@ class Funcionario extends Model
             ':perfil' => $request['perfil'],
             ':email' => $request['email'],
             ':id_usuario' => intval($request['id_usuario']),
-            ':funcionario_id' => @$request['funcionario_id'],
         );
 
     }
@@ -135,7 +141,7 @@ class Funcionario extends Model
     public function setRequestParamsUsuario($request)
     {
         return array(
-            ':nome' => $request['nome'],
+            ":nome" => $request['nome'],
             ':login' => $request['email'],
             ':perfil' => $request['perfil'],
             ':email' => $request['email'],
@@ -144,35 +150,27 @@ class Funcionario extends Model
             ':url_foto' => $request['url_foto'],
         );
     }
-
     public function createUsuario($request)
     {
       try{
- 
-       
-        $sql = "INSERT INTO usuario (nome,login,perfil,email,password,status,url_foto) VALUES (:nome, :login,:perfil,:email,:password,:status,:url_foto)";
+        $sql = "INSERT INTO usuario (nome,login,perfil,email,password,status,url_foto) VALUES (:nome,:login,:perfil,:email,:password,:status,:url_foto)";
         $query = $this->db->prepare($sql);
         $parameters = $this->setRequestParamsUsuario($request);
-       
         $result = $query->execute($parameters);
-       
         if ($result) {
             return array(
                 'success' => $result,
                 'id_usuario' => $this->db->lastInsertId(),
             );
         }
-      
         }catch(Exception $e){
-          
             return array(
                 'success' => false,
                 'error' => $e->getMessage(),
             );
         }
-
         // útil para debugar: você pode ver o SQL atrás da construção usando:
-         echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
 
     }
 }

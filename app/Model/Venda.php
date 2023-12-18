@@ -193,10 +193,8 @@ class Venda extends Model
         $sql = "UPDATE vendas SET quantidade = :quantidade, unidade = :unidade, valor = :valor WHERE id = :produto_id";
         $query = $this->db->prepare($sql);
         $parameters = array(':quantidade' => $quantidade, ':unidade' => $unidade, ':valor' => $valor, ':produto_id' => $produto_id);
-
         // útil para debugar: você pode ver o SQL atrás da construção usando:
         // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-
         $query->execute($parameters);
     }
 

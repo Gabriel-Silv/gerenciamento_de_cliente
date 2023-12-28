@@ -8,7 +8,6 @@
           <div class="row">
             <div class="col-sm-6">
             <input type="hidden" name="cliente_id" value="<?php echo htmlspecialchars($cliente->id, ENT_QUOTES, 'UTF-8'); ?>" />
-            <!-- text input -->
               <div class="form-group">
                  <label>Razão social </label>
                  <input type="text" name="razao_social" value="<?php echo htmlspecialchars($cliente->razao_social, ENT_QUOTES, 'UTF-8'); ?>" required class="form-control"/>
@@ -22,7 +21,7 @@
                 </div>
             </div>
          </div>
-            <!-- fim razao social  nome fantazia -->
+            
             <div class="row">
             <div class="col-sm-4">
                <div class="form-group">
@@ -42,7 +41,7 @@
                   <input type="text" name="cnpj" value="<?php echo htmlspecialchars($cliente->cnpj, ENT_QUOTES, 'UTF-8'); ?>" id="cnpj" class="form-control"/>
                </div>
             </div>
-        </div> <!--- end row 2 -->
+        </div> 
 
 
             <div class="row">

@@ -2,19 +2,17 @@
   @page {
     size: A4 landscape;
   }
-  /* Table header styles */
+
   #table-cliente thead {
     background-color: #ddd;
     font-weight: bold;
   }
   
-  /* Table cell styles */
   #table-cliente td, #table-cliente th {
     padding: 3px;
     border: 0px solid #ddd;
   }
   
-  /* Table stripe row styles */
   #table-cliente tbody tr:nth-child(even) {
     background-color: #f2f2f2;
   }
@@ -43,14 +41,14 @@
     <option value="Pendente">Pendente</option>
     <option value="Cancelada">Cancelada</option>
     <option value="Finalizada">Finalizada</option>
-    <!-- Adicione mais opções de statuses conforme necessário -->
+
   </select>
 </div>
 <div class="col-md-6" >
   <label for="vendedor" class="form-label">Vendedor:</label>
   <select name="vendedor" id="vendedor" class="form-select form-control">
     <option value="">Selecione um Vendedor</option>
-    <!-- Adicione mais opções de vendedores conforme necessário -->
+    
   </select>
 </div>
   <div class="col-md-4  " >
@@ -58,7 +56,7 @@
   <select name="cliente" id="cliente" class="form-select form-control">
     <option value="">Selecione um Cliente</option>
 
-    <!-- Adicione mais opções de clientes conforme necessário -->
+    
   </select>
   <br>
   </div>
@@ -69,7 +67,7 @@
 <div class='col-md-12'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" rel="stylesheet" />
 <button type="submit" class="btn btn-primary">Filtrar</button>
-  <!--<a href="<?php echo URL; ?>venda/relatoriovendas" target="_blank"  class="btn btn-primary">Visualizar relatório</a> -->
+
 
 <button onclick="history.back()" class="btn btn-primary">Voltar</button>
   <br>
@@ -81,19 +79,19 @@
   @page {
     size: A4 landscape;
   }
-  /* Table header styles */
+
   #table-cliente thead {
     background-color: #ddd;
     font-weight: bold;
   }
   
-  /* Table cell styles */
+ 
   #table-cliente td, #table-cliente th {
     padding: 3px;
     border: 0px solid #ddd;
   }
   
-  /* Table stripe row styles */
+  
   #table-cliente tbody tr:nth-child(even) {
     background-color: #f2f2f2;
   }

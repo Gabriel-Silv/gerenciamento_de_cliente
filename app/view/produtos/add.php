@@ -1,7 +1,7 @@
 
 <div class="container">
     <h2>Você está na View: application/view/produtos/edit.php (tudo nesta tela vem desse arquivo)</h2>
-    <!-- add song form -->
+
     <div>
         <h3>Editar um Produto</h3>
         <div class="box">

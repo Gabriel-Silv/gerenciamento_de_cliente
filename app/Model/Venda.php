@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Class Vendas
- */
 
 namespace Mini\Model;
 
@@ -11,9 +8,7 @@ use PDOException;
 use Mini\Libs\Helper;
 class Venda extends Model
 {
-    /**
-     * Get all Vendas from database
-     */
+
     public function getAllVenda()
     {
         $sql = "SELECT * FROM vendas v 
@@ -24,10 +19,6 @@ class Venda extends Model
         $query = $this->db->prepare($sql);
         $query->execute();
 
-        // fetchAll() é o método PDO que recebe todos os registros retornados, aqui em object-style porque definimos isso em
-        // core/controller.php! Se preferir obter um array associativo como resultado, use
-        // $query->fetchAll(PDO::FETCH_ASSOC); ou mude as opções em core/controller.php's PDO para
-        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
         return $query->fetchAll();
     }
 
@@ -74,26 +65,18 @@ class Venda extends Model
    
    if (isset($request['cliente']) &&(!empty($request['cliente']))) {
     $sql .= " AND v.id_cliente = :id_cliente";
-    //$parameters = array(':id_cliente' => $request['cliente']);
+    
     $parameters[':id_cliente'] = $request['cliente'];
    }
    $sql .= " group by v.id,c.id order by i.id,c.id";
        
         $query = $this->db->prepare($sql);
         $query->execute($parameters);
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
-        // fetchAll() é o método PDO que recebe todos os registros retornados, aqui em object-style porque definimos isso em
-        // core/controller.php! Se preferir obter um array associativo como resultado, use
-        // $query->fetchAll(PDO::FETCH_ASSOC); ou mude as opções em core/controller.php's PDO para
-        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+        
         return $query->fetchAll();
     }
     
-    /**
-     * Adicionar um Produto para o banco
-     * @param string $descricao Descrição
-     * @param string $unidade Unidade
-     */
+
     public function add($request)
     {
         try {
@@ -107,12 +90,11 @@ class Venda extends Model
             $this->db->commit();
             
             $result = $query->execute($parameters);
-            //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+            
             return array('success' => $result, 'id_vendas' => $this->db->lastInsertId());
         } catch (PDOException $e) {
             $this->db->rollback();
-            // Handle the exception or log the error message
-            // throw new Exception("Failed to add the record: " . $e->getMessage());
+           
         }
     }
 
@@ -133,7 +115,7 @@ class Venda extends Model
             $parameters = array(':quantidade' => $request['quantidade'], ':id_venda' => $request['id_venda'], ':id_produto' => $request['id_produto'], ':valor_unit' => $request['valor_unit'] );
         $this->db->commit();
         $result = $query->execute($parameters);
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
         return array('success' =>  $result ,
                      'id_vendas'=> $this->db->lastInsertId()
                     );
@@ -142,28 +124,19 @@ class Venda extends Model
         }
     }
 
-    /**
-     * Excluir um Produto do banco de dados
-     * Por favor note: este é apenas um exemplo! Em uma aplicação real, você não deixaria simplesmente ninguém excluir
-     * add/update/delete equipe!
-     * @param int $id_venda Id do Produto
-     */
+    
     public function delete($id_venda)
     {
         $sql = "DELETE FROM vendas WHERE id = :id_venda";
         $query = $this->db->prepare($sql);
         $parameters = array(':id_venda' => $id_venda);
 
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
 
         $query->execute($parameters);
     }
 
-    /**
-     * Receber um Produto do banco
-     * @param integer $produto_id
-     */
+    
     public function getProduto($id_venda)
     {
         $sql = "SELECT * FROM vendas v inner join itens_venda i on(i.id_vendas = v.id)
@@ -173,28 +146,20 @@ class Venda extends Model
         $query = $this->db->prepare($sql);
         $parameters = array(':id_venda' => $id_venda);
 
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
 
         $query->execute($parameters);
 
-        // fetch() é o método do PDO que recebe exatamente um registro
+        
         return ($query->rowcount() ? $query->fetch() : false);
     }
 
-    /**
-     * Atualizar um Produto no banco
-     * @param string $quantidade Descrição
-     * @param string $unidade Unidade
-     * @param int $produto_id Id
-     */
+    
     public function update($quantidade, $unidade, $produto_id)
     {
         $sql = "UPDATE vendas SET quantidade = :quantidade, unidade = :unidade, valor = :valor WHERE id = :produto_id";
         $query = $this->db->prepare($sql);
         $parameters = array(':quantidade' => $quantidade, ':unidade' => $unidade, ':valor' => $valor, ':produto_id' => $produto_id);
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
         $query->execute($parameters);
     }
 
@@ -204,16 +169,11 @@ class Venda extends Model
         $query = $this->db->prepare($sql);
         $parameters = array( ':status' => 'cancelado', ':$venda_id' => $venda_id);
 
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
 
         $query->execute($parameters);
     }
-    /**
-     * Obtenha "estatísticas" simples. Esta é apenas uma demonstração simples para mostrar
-     * como usar mais de um modelo em um controlador
-     * (veja application/controller/vendas.php para detalhes)
-     */
+    
     public function getAmountOfVenda($statusvendas = null)
     {
         $filter = ' ';
@@ -227,7 +187,6 @@ class Venda extends Model
         $query = $this->db->prepare($sql);
         $query->execute($parameters);
 
-        // fetch() é o método do PDO que recebe exatamente um registro
         return $query->fetch()->amount_of_vendas;
     }
 }

@@ -7,10 +7,10 @@
         <form action="<?php echo URL; ?>produtos/update" method="POST">
           <div class="row">
             <div class="col-sm-6">
-            <!-- text input -->
+            
             <div class="row">
                     <div class="col-sm-4">
-                    <!-- text input -->
+                    
                     <div class="form-group">
                         <label>Descrição</label>
                         <input type="text" name="descricao" value="<?php echo htmlspecialchars($produto->descricao, ENT_QUOTES, 'UTF-8'); ?>" required class="form-control"/>

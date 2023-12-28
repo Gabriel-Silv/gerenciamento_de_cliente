@@ -11,44 +11,32 @@ use Exception;
 use Mini\Libs\Helper;
 class Funcionario extends Model
 {
-    /**
-     * Get all funcionarios from database
-     */
+    
     public function getAllFuncionarios()
     {
         $sql = "SELECT * FROM funcionarios";
         $query = $this->db->prepare($sql);
         $query->execute();
-        // fetchAll() é o método PDO que recebe todos os registros retornados, aqui em object-style porque definimos isso em
-        // core/controller.php! Se preferir obter um array associativo como resultado, use
-        // $query->fetchAll(PDO::FETCH_ASSOC); ou mude as opções em core/controller.php's PDO para
-        // $options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ...
+        
         return $query->fetchAll();
     }
-    /**
-     * Adicionar um funcionario para o banco
-     * @param string $nome Nome
-     * @param string $cpf CPF
-     * @param string $obs Observação
-     */
+    
     public function add($request)
     {
        try{
         $this->db->beginTransaction();
-        //cria um usuário para vincular a um funcionário
+        
         $resultUsuario=$this->createUsuario($request);
         $request['id_usuario']=$resultUsuario['id_usuario'];
         $parameters = $this->setRequestParams($request);
       
-        //ini_set('display_errors',1);
-        //ini_set('display_startup_erros',1);
-        //error_reporting(E_ALL);
+        
 
         $sql = "INSERT INTO funcionarios (nome,cpf,telefone,perfil,email,id_usuario) VALUES (:nome,:cpf,:telefone,:perfil,:email,:id_usuario)";
         $query = $this->db->prepare($sql);
         $result = $query->execute($parameters);
         $this->db->commit();
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
         return $result;
       }catch(Exception $e){
         var_dump($e);
@@ -56,25 +44,16 @@ class Funcionario extends Model
         $this->db->rollback();
      }
    }
-    /**
-     * Excluir um funcionario do banco de dados
-     * Por favor note: este é apenas um exemplo! Em uma aplicação real, você não deixaria simplesmente ninguém excluir
-     * add/update/delete equipe!
-     * @param int $funcionario_id Id do Funcionario
-     */
+    
     public function delete($funcionario_id)
     {
         $sql = "DELETE FROM funcionarios WHERE id = :funcionario_id";
         $query = $this->db->prepare($sql);
         $parameters = array(':funcionario_id' => $funcionario_id);
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
         $query->execute($parameters);
     }
-    /**
-     * Receber um Funcionario do banco
-     * @param integer $funcionario_id
-     */
+    
     public function getFuncionario($funcionario_id)
     {
         $sql = "SELECT * FROM funcionarios 
@@ -82,10 +61,9 @@ class Funcionario extends Model
         WHERE funcionarios.id = :funcionario_id LIMIT 1";
         $query = $this->db->prepare($sql);
         $parameters = array('funcionario_id' => $funcionario_id);
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        // echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
         $query->execute($parameters);
-        // fetch() é o método do PDO que recebe exatamente um registro
+        
         return ($query->rowcount() ? $query->fetch() : false);
     }
     public function getFuncionarioCombobox()
@@ -98,22 +76,14 @@ class Funcionario extends Model
     }
 
 
-    /**
-     * Atualizar um Funcionario no banco
-     * @param string $nome Nome
-     * @param string $cpf CPF
-     * @param string $obs Observação
-     * @param int $funcionario_id Id
-     */
+    
     public function update($request)
     {
        
         $sql = "UPDATE funcionarios SET nome = :nome,cpf = :cpf, telefone = :telefone,perfil = :perfil,email = :email WHERE id_usuario = :id_usuario";
         $query = $this->db->prepare($sql);
         $parameters = $this->setRequestParams($request);
-        //var_dump($parameters);
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
         $query->execute($parameters);
     }
 
@@ -169,8 +139,7 @@ class Funcionario extends Model
                 'error' => $e->getMessage(),
             );
         }
-        // útil para debugar: você pode ver o SQL atrás da construção usando:
-        //echo '[ PDO DEBUG ]: ' . Helper::debugPDO($sql, $parameters);  exit();
+        
 
     }
 }

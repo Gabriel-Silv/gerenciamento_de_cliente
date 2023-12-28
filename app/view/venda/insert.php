@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <!-- text input -->
+                      
                         <div class="form-group">
                             <input type="hidden" name="cliente_id" value="" required class="form-control" />
                             <label>Cliente</label>
@@ -176,7 +176,7 @@
                     </tbody>
                 </table>
             </div>
-            <!-- /.col -->
+
         </div>
         <br>
         <br />

@@ -1,10 +1,7 @@
-<!-- main content output -->
 
-<!--  <h3>Total de clientes: <//?php echo $amount_of_clientes; ?></h3>
-        <h3>Total de clientes (via AJAX)</h3>   -->
         <div id="javascript-ajax-result-box"></div>
 
-<!-- <h3>Lista de clientes (dados do model)</h3> -->
+
 <a href="<?php echo URL . 'produtos/insert'; ?>" class="btn btn-primary" id="btn-novo-cliente">
     <i class="fas fa-user-plus"></i>
     Novo Produto

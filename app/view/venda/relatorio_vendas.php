@@ -3,19 +3,17 @@
   @page {
     size: A4
   }
-  /* Table header styles */
+  
   #table-cliente thead {
     background-color: #ddd;
     font-weight: bold;
   }
   
-  /* Table cell styles */
   #table-cliente td, #table-cliente th {
     padding: 8px;
     border: 0px solid #ddd;
   }
   
-  /* Table stripe row styles */
   #table-cliente tbody tr:nth-child(even) {
     background-color: #f2f2f2;
   }

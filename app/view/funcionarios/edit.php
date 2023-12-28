@@ -21,7 +21,6 @@
 
             <div class="col-sm-6">
             <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($funcionario->id, ENT_QUOTES, 'UTF-8'); ?>" />
-            <!-- text input -->
               <div class="form-group"> 
                  <label>Nome</label>
                  <?php   $funcionario->nome=$funcionario->nome?$funcionario->nome:'';?>
@@ -39,7 +38,6 @@
                 </div>
             </div> 
          </div>
-            <!-- fim razao social  nome fantazia -->
             <div class="row">
             <div class="col-sm-4">
             <div class="col-sm-6">
@@ -67,7 +65,7 @@
                </div>
             </div>
       
-        </div> <!--- end row 2 -->
+        </div>
         
         <div class="row">
                 <input type="submit" name="submit_update_funcionario" value="Enviar" class="btn btn-primary"/>

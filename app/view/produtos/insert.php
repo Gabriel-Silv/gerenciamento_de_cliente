@@ -7,7 +7,7 @@
             <form action="<?php echo URL; ?>produtos/add" method="POST">
                 <div class="row">
                     <div class="col-sm-4">
-                    <!-- text input -->
+                    
                     <div class="form-group">
                         <label>Descrição</label>
                         <input type="text" name="descricao" value="" required class="form-control"/>

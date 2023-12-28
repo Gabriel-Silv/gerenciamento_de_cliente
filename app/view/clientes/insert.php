@@ -10,7 +10,7 @@
         <form action="<?php echo URL; ?>clientes/add" method="POST">
           <div class="row">
             <div class="col-sm-6">
-            <!-- text input -->
+            
               <div class="form-group">
                  <label>Razão social </label>
                  <input type="text" name="razao_social" value="" required class="form-control"/>
@@ -24,7 +24,7 @@
                 </div>
             </div>
          </div>
-            <!-- fim razao social  nome fantazia -->
+            
             <div class="row">
             <div class="col-sm-4">
                <div class="form-group">

@@ -70,11 +70,6 @@ class UserController
         echo"Mensagem enviada com sucesso";
     }
 
-    public function recuperarsenha()
-    {
-
-    }
-
     public function esqueceminhasenha()
     {
         if (isset($_POST["submit_esqueci_senha"])) {
@@ -93,16 +88,17 @@ class UserController
 		        $mensagem='Recuperação de password, Olá '.$result['nome'].', visite este link '.$link;
                 $this->sendEmailteste($mensagem, $assunto, $email, $username);
                }
-           
+            
         }
-
+        require APP . 'view/login/recuperarsenha.php';
     }
 
     public function alterarsenha($chave)
     {
         $result = userModel::findChaveRecuperacao($chave);
         if($result) {
-            require APP . 'view/user/recuperar.php';
+            require APP . 'view/login/mudarsenha.php';
         }
+        $this->redirect('/');  
     }
 }

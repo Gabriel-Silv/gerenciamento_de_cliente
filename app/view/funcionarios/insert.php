@@ -8,7 +8,6 @@
                 <div class="row">
           
                         <input type="hidden" name="funcionario_id" value="" />
-                        <!-- text input -->
                         <div class="col-sm-6">
                         <div class="form-group">
                             <div >
@@ -29,7 +28,6 @@
                             <div class="col-sm-2">
                               <br>
                             <div class="form-group">
-                            <!--<label for="customFile">Custom File</label>-->
                             
                             <div class="custom-file" >
                                 <input type="file" class="custom-file-input " id="input-file" name="foto-File"
@@ -60,7 +58,7 @@
                             </div>
                         </div>
                 </div>
-                <!-- fim razao social  nome fantazia -->
+                
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -96,7 +94,6 @@
                         </div>
                     </div>
                 </div>
-                <!--- end row 2 -->
 
                 <div class="row">
                     <input type="submit" name="submit_insert_funcionario" value="Enviar" class="btn btn-primary" />

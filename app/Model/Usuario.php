@@ -147,6 +147,45 @@ class Usuario extends Model
                 'error' => $e->getMessage(),
             );
         }
-        
+    }
+
+    public function addRecuperacaoSenha($id,$chave){
+
+        try{
+            $this->db->beginTransaction();
+            $sql = "INSERT INTO recuperacao_senha (id_usuario,codigo_recuperacao,status_recuperacao) VALUES (:id_usuario,:codigo_recuperacao,:status_recuperacao)";
+            $query = $this->db->prepare($sql);
+
+            $parameters = array(
+                ':id_usuario' =>$id,
+                ':codigo_recuperacao' => $chave,
+                ':status_recuperacao' => false,
+               
+            );
+            
+            $result = $query->execute($parameters);
+            $this->db->commit();
+            return $result;
+          }catch(PDOException $e){
+            $this->db->rollback();
+        }
+    }
+
+    public function findEmail($email)
+    {
+        $sql = "SELECT id,email,nome FROM usuario where email =:email";
+        $parameters = array('email' => $email);
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return ($query->rowcount() ? $query->fetchAll() : false);
+    }
+
+    public function findChaveRecuperacao($chave)
+    {
+        $sql = "SELECT codigo_recuperacao FROM recuperacao_senha where codigo_recuperacao =:codigo_recuperacao";
+        $parameters = array('codigo_recuperacao' => $chave);
+        $query = $this->db->prepare($sql);
+        $query->execute($parameters);
+        return ($query->rowcount() ? $query->fetchAll() : false);
     }
 }

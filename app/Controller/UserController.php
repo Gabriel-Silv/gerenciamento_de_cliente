@@ -5,7 +5,7 @@ use Mini\Controller\LoginController;
 use Exception;
 use Mini\Model\Funcionario;
 use Mini\Libs\PHPMailer;
-
+use Mini\Model\Usuario;
 //require_once('../app/libs/PHPMailer/src/PHPMailer.php');
 class UserController
 {
@@ -62,7 +62,7 @@ class UserController
         $phpmailer->Subject = $assunto; 
         $phpmailer->Body = $mensagem;
 
-        $phpmailer->SMTPDebug = 2;
+        //$phpmailer->SMTPDebug = 2;
         if(!$phpmailer->Send()){
         echo "Erro ao enviar Email:" . $phpmailer->ErrorInfo;
             return;
@@ -73,19 +73,19 @@ class UserController
     public function esqueceminhasenha()
     {
         if (isset($_POST["submit_esqueci_senha"])) {
-            $user= userModel();
-               $result = $user->findEmail($_POST["email"]);
+                $usuario = new Usuario();
+               $result = $usuario->findEmail($_POST["email"]);
                
                if($result){
                 $chave = sha1(uniqid( mt_rand(), true));
 
-                $user->addRecuperacaoSenha($result['id'],$chave);
+                $usuario->addRecuperacaoSenha($result[0]->id,$chave);
                 $assunto = "Recuperação de senha";
                 $email = $_POST["email"];
-                $username = $result["nome"];
+                $username = $result[0]->nome;
 
-                $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]/alterarsenha".$chave;
-		        $mensagem='Recuperação de password, Olá '.$result['nome'].', visite este link '.$link;
+                $link = "http://$_SERVER[HTTP_HOST]/user/alterarsenha/".$chave;
+		        $mensagem = utf8_encode('Recuperação de password, Olá '.$result[0]->nome.', visite este link '.$link);
                 $this->sendEmailteste($mensagem, $assunto, $email, $username);
                }
             
@@ -95,10 +95,12 @@ class UserController
 
     public function alterarsenha($chave)
     {
-        $result = userModel::findChaveRecuperacao($chave);
+        $usuario = new Usuario();
+        $result =$usuario->findChaveRecuperacao($chave);
         if($result) {
             require APP . 'view/login/mudarsenha.php';
+            return;
         }
-        $this->redirect('/');  
+        //$this->redirect('/'); 
     }
 }

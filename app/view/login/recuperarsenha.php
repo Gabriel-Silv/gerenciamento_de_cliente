@@ -15,7 +15,7 @@
             <h3>Recuperar Senha</h3>
           </div>
           <div class="card-body">
-          <form action="<?php echo URL; ?>login/recover" method="POST">
+          <form action="<?php echo URL; ?>user/esqueceminhasenha" method="POST">
               <div class="form-group">
               <?php if(isset($message)) { ?>
                <div class="alert alert-danger"><?php echo $message['message'] ?></div>
@@ -23,7 +23,7 @@
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
               </div>
-              <button type="submit" name="submit_post" class="btn btn-primary">Enviar</button>
+              <button type="submit" name="submit_esqueci_senha" class="btn btn-primary">Enviar</button>
             </form>
           </div>
         </div>
